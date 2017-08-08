@@ -664,10 +664,6 @@ body::-webkit-scrollbar {
     color: #333;
 }
 
-#chat_container .dropbtn, #chat_container .msg-date {
-    display: none;
-}
-
 .private {
     border: 3px solid #eea236;
     border-radius: 50%;

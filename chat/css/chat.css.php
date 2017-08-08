@@ -24,7 +24,7 @@
  * Put detailed description here.
  */
 
-// TODO: Remove old/unsed class/code
+// TODO: Remove old/unused class/code
 
 header('Content-Type: text/css');
 
@@ -504,10 +504,6 @@ body::-webkit-scrollbar {
     padding: 0px;
     font-size: 14px;
     color: #333;
-}
-
-#chat_container .dropbtn, #chat_container .msg-date {
-    display: none;
 }
 
 .private {

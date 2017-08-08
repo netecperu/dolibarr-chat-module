@@ -59,7 +59,7 @@ foreach ($messages as $msg)
     {
         $currentday = $postday;
         ?>
-            <div class="alert alert-info msg-date">
+            <div class="alert alert-info msg-date <?php echo isset($show_date) && $show_date == "true" ? "" : "hidden"; ?>">
                 <strong><?php echo $currentday; ?></strong>
             </div>
 <?php

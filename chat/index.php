@@ -251,7 +251,8 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
         function fetchMessages() {
             setTimeout( function(){
                     $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
-                            action: \"fetch_msgs\"
+                            action: \"fetch_msgs\",
+                            show_date: $('#sort-by-date').is(':checked')
                     },
                     function(response) {
                             // s'il y'a des nouveaux messages (ou message(s) supprimé(s))
@@ -319,10 +320,10 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
         
         $('#sort-by-date').click(function() {
             if ($(this).is(':checked')) {
-                $('.msg-date').show();
+                $('.msg-date').removeClass('hidden');
             }
             else {
-                $('.msg-date').hide();
+                $('.msg-date').addClass('hidden');
             }
         });
         
@@ -495,6 +496,7 @@ else $classviewhide='visible';
     
     if ($result)
     {
+        $show_date = empty($sort_by_date) ? "" : "true";
         include_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/tpl/message.tpl.php';
     }
 ?>

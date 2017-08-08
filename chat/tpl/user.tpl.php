@@ -42,8 +42,8 @@ foreach ($object->users as $obj)
     $userstatic->photo=$obj->photo;
     // j'ai spécifié juste ces attributs car ce sont les attributs nécessaires pour les fonctions de récupération de nom complet et photo
 ?>
-    <div class="media conversation">
-        <a class="pull-left" target="_blank" href="<?php echo DOL_URL_ROOT.'/user/card.php?id='.$obj->rowid; ?>">
+    <div class="media conversation <?php echo $obj->is_online ? "is_online" : ""; ?>">
+        <a class="pull-left user-image" target="_blank" href="<?php echo DOL_URL_ROOT.'/user/card.php?id='.$obj->rowid; ?>">
             <?php
                 echo Form::showphoto('userphoto', $userstatic, 64, 64, 0, '', 'small', 0, 1);
             ?>

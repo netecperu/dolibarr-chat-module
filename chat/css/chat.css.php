@@ -24,6 +24,8 @@
  * Put detailed description here.
  */
 
+// TODO: Remove old/unsed class/code
+
 header('Content-Type: text/css');
 
 ?>
@@ -457,6 +459,167 @@ body::-webkit-scrollbar {
 }
 ::-webkit-scrollbar-thumb:window-inactive {
     background: #ddd; 
+}
+
+/*---- reskin ----*/
+
+.img-circle, .user-image img {
+    border-radius: 50%;
+}
+
+.user-image {
+    outline: none;
+}
+
+#chat_container .msg {
+    padding: 15px 10px 0;
+}
+
+.media > .pull-right {
+    margin-left: 10px;
+}
+
+#chat_container .media-body {
+    background: #FBF9FA;
+    padding: 10px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#chat_container .overflow-visible {
+    overflow: visible;
+}
+
+#chat_container .margin-left {
+    margin-left: 50px;
+}
+
+#chat_container .margin-right {
+    margin-right: 50px;
+}
+
+#chat_container .msg-text {
+    width: 80%;
+    padding: 0px;
+    font-size: 14px;
+    color: #333;
+}
+
+#chat_container .dropbtn, #chat_container .msg-date {
+    display: none;
+}
+
+.private {
+    border: 3px solid #eea236;
+    border-radius: 50%;
+}
+
+.dropdown-content {
+    padding: 5px 0;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+}
+
+.msg-attachment + .dropdown-content {
+    padding: 0px;
+}
+
+.msg-attachment-dropdown {
+    width: 100%;
+}
+
+/*---- end of reskin ----*/
+
+#custom-search-input {
+    background: #e8e6e7;
+}
+
+#users_container .conversation {
+    padding: 10px;
+}
+
+.more-width {
+    min-width: 200px;
+}
+
+#chat_head {
+    background: #F5F3F3;
+    float: left;
+    width: 100%;
+    margin: 0px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+#chat_container {
+    height: 68%;
+}
+
+.chat-head-clickable {
+    display: inline-block;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#chat_head .grey-bold-text, .grey-bold-text {
+    color: #333;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    outline: none;
+}
+
+.delete-checkbox {
+    margin: 10px;
+}
+
+#chat_head .hidden {
+    display: none !important;
+}
+
+.users-filter {
+    background: #f5f3f3;
+    border: 1px solid #dddddd;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.users-filter label {
+    display: block;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+    padding: 10px;
+    border-bottom: 1px solid #dddddd;
+}
+
+.users-filter .dropdown-content label:hover {
+    background: #dddddd;
+}
+
+.caret {
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    right: 15px;
+    top: 0;
+}
+
+.users-filter .dropdown-content {
+    background: #f5f3f3;
+    border-radius: 0;
+    margin-top: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.users-filter .dropdown-content div {
+    padding: 0px;
 }
 
 <?php

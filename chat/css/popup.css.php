@@ -619,6 +619,79 @@ body::-webkit-scrollbar {
     background: #ddd; 
 }
 
+/*---- reskin ----*/
+
+.img-circle, .user-image img {
+    border-radius: 50%;
+}
+
+.user-image {
+    outline: none;
+}
+
+#chat_container .msg {
+    padding: 15px 10px 0;
+}
+
+.media > .pull-right {
+    margin-left: 10px;
+}
+
+#chat_container .media-body {
+    background: #FBF9FA;
+    padding: 10px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#chat_container .overflow-visible {
+    overflow: visible;
+}
+
+#chat_container .margin-left {
+    margin-left: 50px;
+}
+
+#chat_container .margin-right {
+    margin-right: 50px;
+}
+
+#chat_container .msg-text {
+    width: 80%;
+    padding: 0px;
+    font-size: 14px;
+    color: #333;
+}
+
+#chat_container .dropbtn, #chat_container .msg-date {
+    display: none;
+}
+
+.private {
+    border: 3px solid #eea236;
+    border-radius: 50%;
+}
+
+.dropdown-content {
+    padding: 5px 0;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+}
+
+.msg-attachment + .dropdown-content {
+    padding: 0px;
+}
+
+.msg-attachment-dropdown {
+    width: 100%;
+}
+
+/*---- end of reskin ----*/
+
 <?php
 
 } // fin if (! $is_chat_index_page)

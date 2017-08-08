@@ -64,6 +64,13 @@ Online = Online
 NewMessage = New message
 DeleteMessage = Delete
 EnterToSend = Enter to send
+Private = Private
+SortMessagesByDate = Sort messages by date
+NewMessage = New message
+Options = Settings
+SelectAll = Select all
+AllUsers = All users
+OnlineUsers = Online users
 
 #
 # Sample box

@@ -35,7 +35,6 @@ dol_include_once($mod_path.'/chat/class/chat.class.php');
 // Get parameters
 $action	= GETPOST('action','alpha');
 $filter_user = GETPOST('filter_user','alpha');
-$hide_options = GETPOST('hide_options','alpha');
 
 // Access control
 if ($user->socid > 0 || !$user->rights->chat->lire) {
@@ -82,7 +81,7 @@ if (isset($action) && ! empty($action))
 	{
             $object = new Chat($db);
             
-            // récupération des messages
+            // récupération des messages (to populate popup)
             $result = $object->fetch_messages($user);
 
             if ($result)
@@ -105,11 +104,11 @@ if (isset($action) && ! empty($action))
                 
                 $output = ob_get_clean();
                 
-                print 'OK';
+                //print $output;
             }
-            else
-            {
-                print 'KO, empty msg';
-            }
+            //else
+            //{
+                //print 'empty msg';
+            //}
         } // fin if ($action == 'send_msg')
 }

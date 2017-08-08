@@ -29,7 +29,9 @@ if (! defined('REQUIRE_JQUERY_LAYOUT'))  define('REQUIRE_JQUERY_LAYOUT','1');
 
 global $mod_path;
 
-// use this to avoid main.inc.php multi includes error, @include_once/@require_once don't seems to work when adding if statement on custom folder, between, removing custom folder support may be an easy solution
+// use this to avoid main.inc.php multi includes error when call from ajax.php
+// @include_once/@require_once don't seems to work when adding if statement on custom folder
+// between, removing custom folder support may be an easy solution
 if (isset($GLOBALS['mod_path']))
 {
     $mod_path = $GLOBALS['mod_path'];
@@ -59,8 +61,9 @@ $text = GETPOST('text', 'alpha');
 $user_to_id = GETPOST('user_to_id', 'int');
 $filter_user = GETPOST('filter_user', 'alpha');
 
-$msg_id = GETPOST('msg_id', 'int');
+$msg_id = GETPOST('msg_id', 'alpha');
 $enter_to_send = GETPOST('enter_to_send', 'alpha');
+$sort_by_date = GETPOST('sort_by_date', 'alpha');
 
 // Access control
 if ($user->socid > 0 || !$user->rights->chat->lire) {
@@ -128,59 +131,66 @@ if ($action == 'send') {
 }
 
 else if ($action == 'delete') {
-    if ($msg_id > 0)
+    if (! empty($msg_id))
     {
         $error = 0;
         
         $myobject = new ChatMessage($db);
-        $result = $myobject->fetch($msg_id);
         
-        if ($result > 0)
+        foreach (explode(',', $msg_id) as $m_id)
         {
-            $is_mine = $myobject->fk_user == $user->id;
-            
-            if ($user->rights->chat->delete->all || ($is_mine && $user->rights->chat->delete->mine))
+            if (is_numeric($m_id))
             {
-                // we delete message
-                $result = $myobject->delete($user);
+                $result = $myobject->fetch($m_id);
 
-                if ($result > 0) {
-                        // Delete OK
-                } else {
-                        $error ++;
-                        // Delete KO
-                        $mesg = $myobject->error;
-                        //dol_print_error($db);
-                        setEventMessages($mesg, $myobject->errors, 'errors');
-                }
-                
-                // next, we delete attachment if exists
-                if (! $error && $myobject->fk_attachment > 0)
+                if ($result > 0)
                 {
-                    $attachment = new ChatMessageAttachment($db);
-                    $result = $attachment->fetch($myobject->fk_attachment);
+                    $is_mine = $myobject->fk_user == $user->id;
 
-                    if ($result > 0)
+                    if ($user->rights->chat->delete->all || ($is_mine && $user->rights->chat->delete->mine))
                     {
-                        $result = $attachment->delete($user);
-                        
+                        // we delete message
+                        $result = $myobject->delete($user);
+
                         if ($result > 0) {
-                            // Delete attachment OK
+                                // Delete OK
                         } else {
-                            // Delete attachment KO
-                            $mesg = $attachment->error;
-                            //dol_print_error($db);
-                            setEventMessages($mesg, $attachment->errors, 'errors');
+                                $error ++;
+                                // Delete KO
+                                $mesg = $myobject->error;
+                                //dol_print_error($db);
+                                setEventMessages($mesg, $myobject->errors, 'errors');
                         }
+
+                        // next, we delete attachment if exists
+                        if (! $error && $myobject->fk_attachment > 0)
+                        {
+                            $attachment = new ChatMessageAttachment($db);
+                            $result = $attachment->fetch($myobject->fk_attachment);
+
+                            if ($result > 0)
+                            {
+                                $result = $attachment->delete($user);
+
+                                if ($result > 0) {
+                                    // Delete attachment OK
+                                } else {
+                                    // Delete attachment KO
+                                    $mesg = $attachment->error;
+                                    //dol_print_error($db);
+                                    setEventMessages($mesg, $attachment->errors, 'errors');
+                                }
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        setEventMessage($langs->trans("CannotDeleteMessage"), 'warnings');
                     }
                 }
-                
-            }
-            else
-            {
-                setEventMessage($langs->trans("CannotDeleteMessage"), 'warnings');
-            }
-        }
+            } // fin if (is_numeric($m_id))
+        } // fin foreach()
     }
 }
 
@@ -231,6 +241,11 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
             $(\"#chat_container\").scrollTop($(\"#chat_container\")[0].scrollHeight);
         }
         
+        // activate sort by date if on
+        if ($('#sort-by-date').is(':checked')) {
+            $('.msg-date').show();
+        }
+        
         chatScroll();
         
         function fetchMessages() {
@@ -244,6 +259,12 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                             {
                                 $('#chat_container').html(response);
                                 chatScroll();
+                                
+                                // if delete option opened/used
+                                if (! $('#cancel-delete-msg').hasClass('hidden')) {
+                                    $('#cancel-delete-msg').click();
+                                    setDeleteCheckboxClickEvent();
+                                }
                             }
                     });
                     
@@ -260,6 +281,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                     },
                     function(response) {
                             $('#users_container').html(response);
+                            filterUsers();
                     });
         }
         
@@ -295,6 +317,77 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
              }
         });
         
+        $('#sort-by-date').click(function() {
+            if ($(this).is(':checked')) {
+                $('.msg-date').show();
+            }
+            else {
+                $('.msg-date').hide();
+            }
+        });
+        
+        $('#new-msg').click(function() {
+            $('textarea.send-message').focus();
+        });
+        
+        $('#delete-msg').click(function() {
+            $('.delete-checkbox').removeClass('hidden').prop('checked', false);
+            $('#confirm-delete-msg').removeClass('hidden');
+            $('#delete-msg-select-all').removeClass('hidden');
+            $('#cancel-delete-msg').removeClass('hidden');
+            $('#chat-head-options').addClass('hidden');
+            $('#confirm-delete-msg').attr('href', $('#confirm-delete-msg').attr('href').replace(/\?.*/,'?action=delete&msg_id='));
+        });
+        
+        $('#cancel-delete-msg').click(function() {
+            $('.delete-checkbox').addClass('hidden');
+            $('#confirm-delete-msg').addClass('hidden');
+            $('#delete-msg-select-all').addClass('hidden');
+            $('#cancel-delete-msg').addClass('hidden');
+            $('#chat-head-options').removeClass('hidden');
+        });
+        
+        $('#delete-msg-select-all').click(function() {
+            $('.delete-checkbox').prop('checked', true);
+            var msg_id = '';
+            $('.delete-checkbox').each(function(i){
+                msg_id += $(this).val() + ',';
+            });
+            $('#confirm-delete-msg').attr('href', $('#confirm-delete-msg').attr('href').replace(/\?.*/,'?action=delete&msg_id=' + msg_id));
+        });
+        
+        function setDeleteCheckboxClickEvent()
+        {
+            $('.delete-checkbox').click(function() {
+                if ($(this).is(':checked')) {
+                    $('#confirm-delete-msg').attr('href', $('#confirm-delete-msg').attr('href') + $(this).val() + ',');
+                }
+                else {
+                    $('#confirm-delete-msg').attr('href', $('#confirm-delete-msg').attr('href').replace(RegExp($(this).val() + ',', 'g'),''));
+                }
+            });
+        }
+        
+        setDeleteCheckboxClickEvent();
+        
+        $('.users-filter .dropdown-content label').click(function() {
+            // swap html between clicked & selected
+            var saved_html = $('#selected-users-filter').html();
+            $('#selected-users-filter').html($(this).html());
+            $(this).html(saved_html);
+            
+            filterUsers();
+        });
+        
+        function filterUsers()
+        {
+            if ($('#selected-users-filter .btn-icon').attr('alt') == 'online-users') {
+                $('.conversation:not(.is_online)').hide();
+            }
+            else {
+                $('.conversation').show();
+            }
+        }
     });
 </script>";
 
@@ -325,6 +418,16 @@ else $classviewhide='visible';
             </div>
         </div>
     </form>
+    
+    <div class="dropdown-click users-filter">
+        <img class="btn-icon caret" title="" alt="" src="img/arrow-down.png" />
+        <label id="selected-users-filter" class="drop-btn btn"><img class="btn-icon" title="" alt="" src="img/users.png" /><?php echo ' '.$langs->trans("AllUsers"); ?></label>
+        <div class="dropdown-content dropdown-bottom">
+            <div>
+                <label class="align-middle cursor-pointer"><img class="btn-icon" title="online" alt="online-users" src="img/online.png" /><?php echo ' '.$langs->trans("OnlineUsers"); ?></label>
+            </div>
+        </div>
+    </div>
 
     <div id="users_container">
 <?php
@@ -346,6 +449,44 @@ else $classviewhide='visible';
 <?php
 // Start right panel
 ?>
+    <div id="chat_head">
+        <div class="pull-left">
+            <span id="new-msg" class="chat-head-clickable grey-bold-text">
+                <img class="btn-icon" title="" alt="" src="img/plus.png" />
+                <?php echo ' '.$langs->trans("NewMessage"); ?>
+            </span>
+        </div>
+        <div class="pull-right">
+            <div id="chat-head-options" class="dropdown-click">
+                <label class="drop-btn btn grey-bold-text"><img class="btn-icon" title="" alt="" src="img/edit.png" /><?php echo ' '.$langs->trans("Options"); ?> <img class="btn-icon" title="" alt="" src="img/arrow-down.png" /></label>
+                <div class="dropdown-content dropdown-bottom">
+                    <?php
+                        if ($user->rights->chat->delete->all || $user->rights->chat->delete->mine)
+                        {
+                    ?>
+                    <div>
+                        <label id="delete-msg" class="align-middle cursor-pointer"><?php echo ' '.$langs->trans("DeleteMessage"); ?></label>
+                    </div>
+                    <?php
+                        }
+                    ?>
+                </div>
+            </div>
+            <a id="confirm-delete-msg" class="chat-head-clickable grey-bold-text hidden" href="<?php echo DOL_URL_ROOT.$mod_path.'/chat/index.php?action=delete&msg_id='; ?>">
+                <img class="btn-icon" title="" alt="" src="img/delete.png" />
+                <?php echo ' '.$langs->trans("DeleteMessage"); ?>
+            </a>
+            <span id="delete-msg-select-all" class="chat-head-clickable grey-bold-text hidden">
+                <img class="btn-icon" title="" alt="" src="img/select_all.png" />
+                <?php echo ' '.$langs->trans("SelectAll"); ?>
+            </span>
+            <span id="cancel-delete-msg" class="chat-head-clickable grey-bold-text hidden">
+                <img class="btn-icon" title="" alt="" src="img/cancel.png" />
+                <?php echo ' '.$langs->trans("Cancel"); ?>
+            </span>
+        </div>
+    </div><!-- end div id="chat_head" -->
+    
     <div id="chat_container" class="msg-wrap">
 <?php
     
@@ -390,6 +531,10 @@ else $classviewhide='visible';
         <div class="dropdown-click">
             <label class="drop-btn btn"><img class="btn-icon" title="" alt="" src="img/settings.png" /></label>
             <div class="dropdown-content dropdown-top">
+                <div class="more-width">
+                    <input class="align-middle" type="checkbox" id="sort-by-date" name="sort_by_date" <?php echo empty($sort_by_date) ? "" : "checked"; ?>/>
+                    <label for="sort-by-date" class="align-middle cursor-pointer"><?php echo ' '.$langs->trans("SortMessagesByDate"); ?></label>
+                </div>
                 <div class="more-width">
                     <input class="align-middle" type="checkbox" id="enter-to-send" name="enter_to_send" <?php echo empty($enter_to_send) ? "" : "checked"; ?>/>
                     <label for="enter-to-send" class="align-middle cursor-pointer"><?php echo ' '.$langs->trans("EnterToSend"); ?></label>

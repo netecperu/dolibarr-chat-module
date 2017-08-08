@@ -98,8 +98,7 @@ print "$.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
                 
                 function getMessages() {
                     $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
-                            action: \"fetch_msgs\",
-                            hide_options: true
+                            action: \"fetch_msgs\"
                     },
                     function(response) {
                             // s'il y'a des nouveaux messages (ou message(s) supprimé(s))

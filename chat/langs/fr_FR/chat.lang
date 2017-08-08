@@ -64,6 +64,13 @@ Online = En ligne
 NewMessage = Nouveau message
 DeleteMessage = Supprimer
 EnterToSend = Entrée pour envoyer
+Private = Privé
+SortMessagesByDate = Trier les messages par date
+NewMessage = Nouveau message
+Options = Options
+SelectAll = Sélectionner tout
+AllUsers = Tout les utilisateurs
+OnlineUsers = Utilisateurs en ligne
 
 #
 # Box d'exemple

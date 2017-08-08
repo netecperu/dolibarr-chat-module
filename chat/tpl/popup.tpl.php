@@ -37,7 +37,6 @@ $langs = $GLOBALS['langs'];
     <div class="panel-collapse collapse" id="collapseOne">
         <div id="chat_container" class="panel-body msg-wrap">
             <?php
-                $hide_options = true;
                 include_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/tpl/message.tpl.php';
             ?>
         </div>

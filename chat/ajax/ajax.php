@@ -36,6 +36,7 @@ dol_include_once($mod_path.'/chat/class/chat.class.php');
 $action	= GETPOST('action','alpha');
 $filter_user = GETPOST('filter_user','alpha');
 $show_date = GETPOST('show_date','alpha');
+$filter_by_user = GETPOST('filter_by_user','int');
 
 // Access control
 if ($user->socid > 0 || !$user->rights->chat->lire) {

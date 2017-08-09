@@ -118,7 +118,6 @@ if ($action == 'send') {
             $result = $myobject->send($user);
             if ($result > 0) {
                     // Creation OK
-                    $user_to_id = "";
             } else {
                     // Creation KO
                     $mesg = $myobject->error;
@@ -255,7 +254,8 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                     if (! disableAjax) {
                         $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
                                 action: \"fetch_msgs\",
-                                show_date: $('#sort-by-date').is(':checked')
+                                show_date: $('#sort-by-date').is(':checked'),
+                                filter_by_user: ".(empty($user_to_id) ? "-1" : $user_to_id)."
                         },
                         function(response) {
                                 // s'il y'a des nouveaux messages (ou message(s) supprimé(s))
@@ -282,6 +282,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                     function(response) {
                             $('#users_container').html(response);
                             filterUsers();
+                            setUserAnchorClickEvent();
                     });
         }
         
@@ -390,6 +391,19 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                 $('.conversation').show();
             }
         }
+        
+        function setUserAnchorClickEvent()
+        {
+            $('.user-anchor').click(function() {
+                $(this).attr('href', $(this).attr('href') + '&enter_to_send=' + ($('#enter-to-send').is(':checked') ? 'on' : '') + '&sort_by_date=' + ($('#sort-by-date').is(':checked') ? 'on' : ''));
+            });
+        }
+        
+        setUserAnchorClickEvent();
+        
+        $('#chat-head-back-btn').click(function() {
+            $(this).attr('href', $(this).attr('href') + '?enter_to_send=' + ($('#enter-to-send').is(':checked') ? 'on' : '') + '&sort_by_date=' + ($('#sort-by-date').is(':checked') ? 'on' : ''));
+        });
     });
 </script>";
 
@@ -453,10 +467,36 @@ else $classviewhide='visible';
 ?>
     <div id="chat_head">
         <div class="pull-left">
+            <?php
+                if ($action == "private_msg" && ! empty($user_to_id))
+                {
+                    $userstatic->fetch($user_to_id);
+            ?>
+            <a id="chat-head-back-btn" class="pull-left chat-head-clickable grey-bold-text" href="<?php echo DOL_URL_ROOT.$mod_path.'/chat/index.php'; ?>">
+                <img class="btn-icon" title="" alt="" src="img/arrow-back.png" />
+                <?php echo ' '.$langs->trans("Back"); ?>
+            </a>
+            <span class="pull-left divider">&nbsp;</span>
+            <a class="pull-left chat-head-user" target="_blank" href="<?php echo DOL_URL_ROOT.'/user/card.php?id='.$user_to_id; ?>">
+                <span class="user-image">
+                    <?php
+                        echo Form::showphoto('userphoto', $userstatic, 32, 32, 0, '', 'small', 0, 1);
+                    ?>
+                </span>
+                <span class="user-name pull-right grey-bold-text"><?php echo $userstatic->getFullName($langs); ?></span>
+            </a>
+            <?php
+                }
+                else
+                {
+            ?>
             <span id="new-msg" class="chat-head-clickable grey-bold-text">
                 <img class="btn-icon" title="" alt="" src="img/plus.png" />
                 <?php echo ' '.$langs->trans("NewMessage"); ?>
             </span>
+            <?php
+                }
+            ?>
         </div>
         <div class="pull-right">
             <div id="chat-head-options" class="dropdown-click">
@@ -498,6 +538,7 @@ else $classviewhide='visible';
     if ($result)
     {
         $show_date = empty($sort_by_date) ? "" : "true";
+        $filter_by_user = empty($user_to_id) ? -1 : $user_to_id;
         include_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/tpl/message.tpl.php';
     }
 ?>
@@ -511,15 +552,7 @@ else $classviewhide='visible';
     print '<input type="hidden" name="user_to_id" value="'.$user_to_id.'">';
 ?>
     <div class="send-wrap ">
-        <?php
-            if ($action == "private_msg" && ! empty($user_to_id))
-            {
-                $userstatic->fetch($user_to_id);
-                
-                echo '<div id="private-msg-to-user">'.$langs->trans("PrivateMessageTo").' <span>'.$userstatic->getFullName($langs).'</span></div>';
-            }
-        ?>
-        <textarea <?php echo $action == "private_msg" ? 'id="private-msg-textarea"' : ''; ?> name="text" class="form-control send-message" rows="3" placeholder="<?php echo $langs->trans("TypeAMessagePlaceHolder"); ?>"></textarea>
+        <textarea name="text" class="form-control send-message" rows="3" placeholder="<?php echo $langs->trans("TypeAMessagePlaceHolder"); ?>"></textarea>
     </div>
 
     <div class="btn-panel">

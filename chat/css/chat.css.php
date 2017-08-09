@@ -618,4 +618,44 @@ body::-webkit-scrollbar {
     padding: 0px;
 }
 
+.user-anchor {
+    outline: none;
+}
+
+.user-anchor .media-body {
+    color: #333;
+}
+
+.user-anchor:hover {
+    text-decoration: none;
+}
+
+.conversation:hover {
+    background: #FBF9FA;
+}
+
+.chat-head-user {
+    display: inline-block;
+    outline: none;
+}
+
+.chat-head-user .user-image {
+    display: inline-block;
+    border: 3px solid #333;
+    border-radius: 50%;
+}
+
+.chat-head-user .user-name {
+    margin: 10px;
+}
+
+.divider {
+    border-left: 2px solid #ddd;
+    display: inline-block;
+    margin: 0px 15px;
+    margin-top: -10px;
+    margin-bottom: -10px;
+    padding: 20px 0px;
+}
+
 <?php

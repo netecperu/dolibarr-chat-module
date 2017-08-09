@@ -36,7 +36,7 @@ dol_include_once($mod_path.'/chat/class/chat.class.php');
 $action	= GETPOST('action','alpha');
 $filter_user = GETPOST('filter_user','alpha');
 $show_date = GETPOST('show_date','alpha');
-$filter_by_user = GETPOST('filter_by_user','int');
+$user_to_id = GETPOST('filter_by_user','int');
 
 // Access control
 if ($user->socid > 0 || !$user->rights->chat->lire) {
@@ -60,7 +60,7 @@ if (isset($action) && ! empty($action))
             $object = new Chat($db);
             
             // récupération des messages
-            $result = $object->fetch_messages($user);
+            $result = $object->fetch_messages($user, $user_to_id);
 
             if ($result)
             {

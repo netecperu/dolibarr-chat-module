@@ -533,12 +533,11 @@ else $classviewhide='visible';
 <?php
     
     // récupération des messages
-    $result = $object->fetch_messages($user);
+    $result = $object->fetch_messages($user, $user_to_id);
     
     if ($result)
     {
         $show_date = empty($sort_by_date) ? "" : "true";
-        $filter_by_user = empty($user_to_id) ? -1 : $user_to_id;
         include_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/tpl/message.tpl.php';
     }
 ?>

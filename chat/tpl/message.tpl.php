@@ -45,24 +45,6 @@ foreach ($messages as $msg)
     $is_private_msg = ! empty($msg->fk_user_to);
     $is_mine = $msg->fk_user == $user->id;
     
-    // filter private conversations/messages by user
-    if (isset($filter_by_user) && $filter_by_user > 0)
-    {
-        // private message > OK
-        if ($is_private_msg) {
-            $private_msg_from_me_to_user = $is_mine && $msg->fk_user_to == $filter_by_user;
-            $private_msg_from_user_to_me = $msg->fk_user == $filter_by_user && $msg->fk_user_to == $user->id;
-            
-            // if the message is not from user to me & not from me to user
-            if (! $private_msg_from_me_to_user && ! $private_msg_from_user_to_me) {
-                continue; // next
-            }
-        }
-        else {
-            continue; // next
-        }
-    }
-    
     // initialisation des données de l'utilisateur (j'utilise $userstatic car j'ai besoin d'appeler des fonctions de cet objet)
     $userstatic->id = $msg->fk_user;
     $userstatic->firstname = $msg->user->firstname;

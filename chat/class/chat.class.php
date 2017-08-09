@@ -356,7 +356,7 @@ class Chat // extends CommonObject
 	 * @param int $id Id object
 	 * @return int <0 if KO, >0 if OK
 	 */
-	public function fetch_messages($user)
+	public function fetch_messages($user, $user_to_id = -1)
 	{
 		global $conf, $langs;
                 
@@ -370,7 +370,13 @@ class Chat // extends CommonObject
                 $sql.= ", a.name as attachment_name, a.type as attachment_type, a.size as attachment_size";
                 $sql.= " FROM ".MAIN_DB_PREFIX."chat_msg as m";
                 $sql.= " LEFT JOIN ".MAIN_DB_PREFIX."chat_msg_attachment as a ON m.fk_attachment = a.rowid";
-                $sql.= " WHERE m.fk_user_to IS NULL OR m.fk_user = ".$user->id." OR m.fk_user_to = ".$user->id;
+                if ($user_to_id > 0) {
+                    $sql.= " WHERE (m.fk_user = ".$user->id." AND m.fk_user_to = ".$user_to_id.")";
+                    $sql.= " OR (m.fk_user = ".$user_to_id." AND m.fk_user_to = ".$user->id.")";
+                }
+                else {
+                    $sql.= " WHERE m.fk_user_to IS NULL OR m.fk_user = ".$user->id." OR m.fk_user_to = ".$user->id;
+                }
                 $sql.= " ORDER BY m.post_time DESC";
                 $sql.= " LIMIT ".$limit;
 

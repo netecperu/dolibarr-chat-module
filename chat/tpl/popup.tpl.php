@@ -27,6 +27,7 @@ $langs = $GLOBALS['langs'];
 <div id="chat_popup">
     <div class="panel panel-default">
         <div class="panel-heading" id="accordion">
+            <span id="chat_popup_counter" class="label label-danger hidden">&nbsp;</span>
             <img class="align-middle" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/chat-16.png'; ?>" /> Chat
             <div class="btn-group pull-right">
                 <a type="button" href="<?php echo DOL_URL_ROOT.$mod_path.'/chat/index.php?mainmenu=chat&leftmenu='; ?>" class="btn btn-default btn-xs">

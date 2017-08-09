@@ -306,6 +306,23 @@ small, .small {
     border-radius: 4px;
 }
 
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.label-danger {
+    background-color: #d9534f;
+}
+
 /*---- end of Bootstrap ----*/
 
 /*---- dropdown ----*/

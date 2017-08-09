@@ -641,8 +641,6 @@ body::-webkit-scrollbar {
 
 .chat-head-user .user-image {
     display: inline-block;
-    border: 3px solid #333;
-    border-radius: 50%;
 }
 
 .chat-head-user .user-name {

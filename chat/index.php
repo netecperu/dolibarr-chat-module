@@ -248,26 +248,25 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
         
         chatScroll();
         
+        var disableAjax = false;
+        
         function fetchMessages() {
             setTimeout( function(){
-                    $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
-                            action: \"fetch_msgs\",
-                            show_date: $('#sort-by-date').is(':checked')
-                    },
-                    function(response) {
-                            // s'il y'a des nouveaux messages (ou message(s) supprimé(s))
-                            if ($(response).filter('#msg_number').val() != $('#msg_number').val())
-                            {
-                                $('#chat_container').html(response);
-                                chatScroll();
-                                
-                                // if delete option opened/used
-                                if (! $('#cancel-delete-msg').hasClass('hidden')) {
-                                    $('#cancel-delete-msg').click();
+                    if (! disableAjax) {
+                        $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
+                                action: \"fetch_msgs\",
+                                show_date: $('#sort-by-date').is(':checked')
+                        },
+                        function(response) {
+                                // s'il y'a des nouveaux messages (ou message(s) supprimé(s))
+                                if ($(response).filter('#msg_number').val() != $('#msg_number').val())
+                                {
+                                    $('#chat_container').html(response);
+                                    chatScroll();
                                     setDeleteCheckboxClickEvent();
                                 }
-                            }
-                    });
+                        });
+                    }
                     
                     fetchUsers(); // on n'oublie pas de rafraîchir la liste des utilisateurs aussi
                     
@@ -332,6 +331,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
         });
         
         $('#delete-msg').click(function() {
+            disableAjax = true;
             $('.delete-checkbox').removeClass('hidden').prop('checked', false);
             $('#confirm-delete-msg').removeClass('hidden');
             $('#delete-msg-select-all').removeClass('hidden');
@@ -346,6 +346,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
             $('#delete-msg-select-all').addClass('hidden');
             $('#cancel-delete-msg').addClass('hidden');
             $('#chat-head-options').removeClass('hidden');
+            disableAjax = false;
         });
         
         $('#delete-msg-select-all').click(function() {

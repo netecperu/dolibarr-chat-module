@@ -74,6 +74,20 @@ class Chat // extends CommonObject
 	{
 		global $conf, $langs;
                 
+                // si l'utilisateur est inscrit on actualise la date de la dernière vérification effectuée
+                if ($this->is_online_user($user))
+                {
+                    $this->update_online_user($user);
+                }
+                else // si nn on l'inscrit en tant qu'utilisateur en ligne
+                {
+                    $this->add_online_user($user);
+                }
+                
+                // et on supprime les utilisateurs qui ne sont plus en ligne
+                $this->delete_offline_users();
+                
+                // fetch users
 		$sql = "SELECT u.rowid, u.lastname, u.firstname, u.admin, u.gender, u.photo, u.datelastlogin";
                 if ($check_online)
                 {
@@ -345,19 +359,6 @@ class Chat // extends CommonObject
 	public function fetch_messages($user)
 	{
 		global $conf, $langs;
-                
-                // si l'utilisateur est inscrit on actualise la date de la dernière vérification effectuée
-                if ($this->is_online_user($user))
-                {
-                    $this->update_online_user($user);
-                }
-                else // si nn on l'inscrit en tant qu'utilisateur en ligne
-                {
-                    $this->add_online_user($user);
-                }
-                
-                // et on supprime les utilisateurs qui ne sont plus en ligne
-                $this->delete_offline_users();
                 
                 // récupération de la limite des messages à afficher
                 $limit = ! empty($conf->global->CHAT_MAX_MSG_NUMBER) ? $conf->global->CHAT_MAX_MSG_NUMBER : 50;

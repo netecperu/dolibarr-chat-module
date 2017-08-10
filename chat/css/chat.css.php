@@ -26,6 +26,16 @@
 
 // TODO: Remove old/unused class/code
 
+// Load Dolibarr environment
+global $mod_path;
+$mod_path = "";
+if (false === (@include '../../main.inc.php')) {  // From htdocs directory
+	require '../../../main.inc.php'; // From "custom" directory
+	$mod_path = "/custom";
+}
+
+global $conf;
+
 header('Content-Type: text/css');
 
 ?>
@@ -473,6 +483,11 @@ body::-webkit-scrollbar {
     border-radius: 50%;
 }
 
+.user-image img {
+    display: inline-block;
+    float: left;
+}
+
 .user-image {
     outline: none;
 }
@@ -513,7 +528,7 @@ body::-webkit-scrollbar {
 }
 
 .private {
-    border: 3px solid #eea236;
+    border: 2px solid <?php echo ! empty($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR) ? $conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR : "#eea236"; ?>;
     border-radius: 50%;
 }
 

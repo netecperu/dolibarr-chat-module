@@ -38,6 +38,23 @@ ChatConf = Chat configuration
 ChatAutoRefreshTime = Chat auto refresh time in seconds (Default: 5 seconds)
 ChatMaxMsgNumber = Maximum number of messages shown on chat (Default: 50)
 ShowImagesPreview = Show images preview on chat
+ChatPopupSize = Chat popup size
+Small = Small
+Medium = Medium
+Large = Large
+ChatPopupBackgroundColor = Chat popup background color
+LightGrey = Light grey
+Grey = Grey
+Blue = Blue
+Green = Green
+SkyBlue = Sky blue
+Orange = Orange
+Red = Red
+ChatPopupTextColor = Chat popup text color
+White = White
+Black = Black
+ChatPopupCounterColor = Chat popup notification label color
+ChatPrivateMessageBorderColor = Private messages border color
 
 #
 # About page

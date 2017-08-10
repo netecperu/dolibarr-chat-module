@@ -22,19 +22,15 @@
 
 $mod_path= $GLOBALS['mod_path'];
 $langs = $GLOBALS['langs'];
+$conf = $GLOBALS['conf'];
 
 ?>
 <div id="chat_popup">
     <div class="panel panel-default">
         <div class="panel-heading" id="accordion">
             <span id="chat_popup_counter" class="label label-danger hidden">&nbsp;</span>
-            <img class="align-middle" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/chat-16.png'; ?>" />
+            <img class="align-middle" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/'.($conf->global->CHAT_POPUP_TEXT_COLOR == '#fff' ? 'chat-16-white.png' : 'chat-16.png'); ?>" />
             <span id="chat_popup_title" class="align-middle"><?php echo $langs->trans("Module500001Name"); ?></span>
-            <div class="btn-group pull-right">
-                <a type="button" href="<?php echo DOL_URL_ROOT.$mod_path.'/chat/index.php?mainmenu=chat&leftmenu='; ?>" class="btn btn-default btn-xs">
-                    <img class="align-middle" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/extend.png'; ?>" />
-                </a>
-            </div>
         </div>
     <div class="panel-collapse collapse" id="collapseOne">
         <div id="chat_popup_toolbox">

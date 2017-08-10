@@ -34,6 +34,8 @@ if (false === (@include '../../main.inc.php')) {  // From htdocs directory
 	$mod_path = "/custom";
 }
 
+global $conf;
+
 header('Content-Type: text/css');
 
 $is_chat_index_page = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) == DOL_URL_ROOT.$mod_path.'/chat/index.php' ? true : false;
@@ -48,7 +50,7 @@ if (! $is_chat_index_page)
     bottom: 0px;
     right: 0px;
     margin-right: 15px;
-    width: 30%;
+    width: <?php echo ! empty($conf->global->CHAT_POPUP_SIZE) ? $conf->global->CHAT_POPUP_SIZE : "30%"; ?>;
 }
 
 .panel-body {
@@ -159,7 +161,7 @@ if (! $is_chat_index_page)
 }
 
 .panel-default {
-    border-color: #ddd;
+    border-color: <?php echo ! empty($conf->global->CHAT_POPUP_BACKGROUND_COLOR) ? $conf->global->CHAT_POPUP_BACKGROUND_COLOR : "#ddd"; ?>;
 }
 
 .panel-heading {
@@ -170,9 +172,13 @@ if (! $is_chat_index_page)
 }
 
 .panel-default > .panel-heading {
-    color: #333;
-    background-color: #f5f5f5;
-    border-color: #ddd;
+    color: <?php echo ! empty($conf->global->CHAT_POPUP_TEXT_COLOR) ? $conf->global->CHAT_POPUP_TEXT_COLOR : "#333"; ?>;
+    background-color: <?php echo ! empty($conf->global->CHAT_POPUP_BACKGROUND_COLOR) ? $conf->global->CHAT_POPUP_BACKGROUND_COLOR : "#e8e6e7"; ?>;
+    border-color: <?php echo ! empty($conf->global->CHAT_POPUP_BACKGROUND_COLOR) ? $conf->global->CHAT_POPUP_BACKGROUND_COLOR : "#ddd"; ?>;
+}
+
+#chat_popup_title {
+    font-weight: bold;
 }
 
 .btn-group, .btn-group-vertical {
@@ -407,7 +413,7 @@ small, .small {
 }
 
 .label-danger {
-    background-color: #d9534f;
+    background-color: <?php echo ! empty($conf->global->CHAT_POPUP_COUNTER_COLOR) ? $conf->global->CHAT_POPUP_COUNTER_COLOR : "#d9534f"; ?>;
 }
 
 /*---- end of Bootstrap ----*/
@@ -749,6 +755,11 @@ body::-webkit-scrollbar {
     border-radius: 50%;
 }
 
+.user-image img {
+    display: inline-block;
+    float: left;
+}
+
 .user-image {
     outline: none;
 }
@@ -789,7 +800,7 @@ body::-webkit-scrollbar {
 }
 
 .private {
-    border: 3px solid #eea236;
+    border: 2px solid <?php echo ! empty($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR) ? $conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR : "#eea236"; ?>;
     border-radius: 50%;
 }
 

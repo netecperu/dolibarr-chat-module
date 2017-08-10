@@ -54,7 +54,7 @@ class modChat extends DolibarrModules
 		$this->description = "Gestion de chat";
 
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
-		$this->version = '1.1.0';
+		$this->version = '2.0.0';
 
 		$this->const_name = 'MAIN_MODULE_'.strtoupper($this->name);
 		$this->special = 0;
@@ -107,6 +107,51 @@ class modChat extends DolibarrModules
                                 'chaine', // Constant type
                                 '1', // Constant value
                                 'Show or not images preview on chat', // Constant description
+                                true, // Constant visibility
+                                'current', // Constant entity 'current' or 'allentities'
+                                false // Delete constant when module is disabled
+                        ),
+                        3 => array(
+                                'CHAT_POPUP_SIZE', // Constant name
+                                'chaine', // Constant type
+                                '30%', // Constant value
+                                'Chat popup size', // Constant description
+                                true, // Constant visibility
+                                'current', // Constant entity 'current' or 'allentities'
+                                false // Delete constant when module is disabled
+                        ),
+                        4 => array(
+                                'CHAT_POPUP_BACKGROUND_COLOR', // Constant name
+                                'chaine', // Constant type
+                                '#428bca', // Constant value
+                                'Chat popup background color', // Constant description
+                                true, // Constant visibility
+                                'current', // Constant entity 'current' or 'allentities'
+                                false // Delete constant when module is disabled
+                        ),
+                        5 => array(
+                                'CHAT_POPUP_TEXT_COLOR', // Constant name
+                                'chaine', // Constant type
+                                '#fff', // Constant value
+                                'Chat popup text color', // Constant description
+                                true, // Constant visibility
+                                'current', // Constant entity 'current' or 'allentities'
+                                false // Delete constant when module is disabled
+                        ),
+                        6 => array(
+                                'CHAT_POPUP_COUNTER_COLOR', // Constant name
+                                'chaine', // Constant type
+                                '#d9534f', // Constant value
+                                'Chat popup counter color', // Constant description
+                                true, // Constant visibility
+                                'current', // Constant entity 'current' or 'allentities'
+                                false // Delete constant when module is disabled
+                        ),
+                        7 => array(
+                                'CHAT_PRIVATE_MSG_BORDER_COLOR', // Constant name
+                                'chaine', // Constant type
+                                '#f0ad4e', // Constant value
+                                'Chat private message(s) border color', // Constant description
                                 true, // Constant visibility
                                 'current', // Constant entity 'current' or 'allentities'
                                 false // Delete constant when module is disabled

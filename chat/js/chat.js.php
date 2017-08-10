@@ -59,15 +59,13 @@ print "         var user_to_id = -1;
                         chatScroll();
                         
                         $('#accordion').click(function(e) {
-                            if($(e.target).is('div')) { // if click from #accordion div
-                                if ($('#collapseOne').hasClass('in')) {
-                                    $('#collapseOne').slideUp().removeClass('in');
-                                }
-                                else {
-                                    $('#collapseOne').slideDown().addClass('in');
-                                    chatScroll();
-                                    hidePopupCounter();
-                                }
+                            if ($('#collapseOne').hasClass('in')) {
+                                $('#collapseOne').slideUp().removeClass('in');
+                            }
+                            else {
+                                $('#collapseOne').slideDown().addClass('in');
+                                chatScroll();
+                                hidePopupCounter();
                             }
                         });
                         

@@ -122,6 +122,91 @@ else if ($action == 'set_CHAT_SHOW_IMAGES_PREVIEW')
     }
 }
 
+// set chat popup size constant
+else if ($action == 'set_CHAT_POPUP_SIZE')
+{
+    $res = dolibarr_set_const($db, "CHAT_POPUP_SIZE",$value,'chaine',0,'',$conf->entity);
+
+    if (! $res > 0) $error++;
+
+    if (! $error)
+    {
+        setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
+    }
+    else
+    {
+        setEventMessages($langs->trans("Error"), null, 'errors');
+    }
+}
+
+// set chat popup background color constant
+else if ($action == 'set_CHAT_POPUP_BACKGROUND_COLOR')
+{
+    $res = dolibarr_set_const($db, "CHAT_POPUP_BACKGROUND_COLOR",$value,'chaine',0,'',$conf->entity);
+
+    if (! $res > 0) $error++;
+
+    if (! $error)
+    {
+        setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
+    }
+    else
+    {
+        setEventMessages($langs->trans("Error"), null, 'errors');
+    }
+}
+
+// set chat popup text color constant
+else if ($action == 'set_CHAT_POPUP_TEXT_COLOR')
+{
+    $res = dolibarr_set_const($db, "CHAT_POPUP_TEXT_COLOR",$value,'chaine',0,'',$conf->entity);
+
+    if (! $res > 0) $error++;
+
+    if (! $error)
+    {
+        setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
+    }
+    else
+    {
+        setEventMessages($langs->trans("Error"), null, 'errors');
+    }
+}
+
+// set chat popup counter color constant
+else if ($action == 'set_CHAT_POPUP_COUNTER_COLOR')
+{
+    $res = dolibarr_set_const($db, "CHAT_POPUP_COUNTER_COLOR",$value,'chaine',0,'',$conf->entity);
+
+    if (! $res > 0) $error++;
+
+    if (! $error)
+    {
+        setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
+    }
+    else
+    {
+        setEventMessages($langs->trans("Error"), null, 'errors');
+    }
+}
+
+// set chat private message(s) border color constant
+else if ($action == 'set_CHAT_PRIVATE_MSG_BORDER_COLOR')
+{
+    $res = dolibarr_set_const($db, "CHAT_PRIVATE_MSG_BORDER_COLOR",$value,'chaine',0,'',$conf->entity);
+
+    if (! $res > 0) $error++;
+
+    if (! $error)
+    {
+        setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
+    }
+    else
+    {
+        setEventMessages($langs->trans("Error"), null, 'errors');
+    }
+}
+
 /*
  * View
  */
@@ -151,7 +236,7 @@ $var=true;
 print '<table class="noborder" width="100%">';
 print '<tr class="liste_titre">';
 print '<td>'.$langs->trans("Parameters").'</td>'."\n";
-print '<td align="right" width="60">'.$langs->trans("Value").'</td>'."\n";
+print '<td align="right" width="150">'.$langs->trans("Value").'</td>'."\n";
 print '<td width="80">&nbsp;</td></tr>'."\n";
 
 // auto refresh time
@@ -195,6 +280,120 @@ else
     print '<a href="'.$_SERVER['PHP_SELF'].'?action=set_CHAT_SHOW_IMAGES_PREVIEW&amp;value=0">'.img_picto($langs->trans("Enabled"),'switch_on').'</a>';
 }
 print '</td></tr>';
+
+// popup size
+$var=!$var;
+print '<form action="'.$_SERVER["PHP_SELF"].'" method="POST">';
+print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'" />';
+print '<input type="hidden" name="action" value="set_CHAT_POPUP_SIZE" />';
+print '<tr '.$bc[$var].'>';
+print '<td>'.$langs->trans("ChatPopupSize").'</td>';
+print '<td align="right">';
+print '<select class="flat" name="value">';
+print '<option value="30%"'.($conf->global->CHAT_POPUP_SIZE == '30%' ? ' selected' : '').'>'.$langs->trans("Small").'</option>';
+print '<option value="40%"'.($conf->global->CHAT_POPUP_SIZE == '40%' ? ' selected' : '').'>'.$langs->trans("Medium").'</option>';
+print '<option value="45%"'.($conf->global->CHAT_POPUP_SIZE == '45%' ? ' selected' : '').'>'.$langs->trans("Large").'</option>';
+print '</select>';
+print '</td>';
+print '<td align="right">';
+print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+print '</td>';
+print '</tr>';
+print '</form>';
+
+// popup background color
+$var=!$var;
+print '<form action="'.$_SERVER["PHP_SELF"].'" method="POST">';
+print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'" />';
+print '<input type="hidden" name="action" value="set_CHAT_POPUP_BACKGROUND_COLOR" />';
+print '<tr '.$bc[$var].'>';
+print '<td>'.$langs->trans("ChatPopupBackgroundColor").'</td>';
+print '<td align="right">';
+print '<span id="popup-background-color-preview" style="display: inline-block; padding: 10px; border: 2px solid #ddd; border-radius: 50%; vertical-align: middle; margin-right: 10px; background: '.$conf->global->CHAT_POPUP_BACKGROUND_COLOR.';"></span>';
+print '<select class="flat" name="value" onchange="$(\'#popup-background-color-preview\').css(\'background\', $(this).val());">';
+print '<option value="#e8e6e7"'.($conf->global->CHAT_POPUP_BACKGROUND_COLOR == '#e8e6e7' ? ' selected' : '').'>'.$langs->trans("LightGrey").'</option>';
+print '<option value="#777"'.($conf->global->CHAT_POPUP_BACKGROUND_COLOR == '#777' ? ' selected' : '').'>'.$langs->trans("Grey").'</option>';
+print '<option value="#428bca"'.($conf->global->CHAT_POPUP_BACKGROUND_COLOR == '#428bca' ? ' selected' : '').'>'.$langs->trans("Blue").'</option>';
+print '<option value="#5cb85c"'.($conf->global->CHAT_POPUP_BACKGROUND_COLOR == '#5cb85c' ? ' selected' : '').'>'.$langs->trans("Green").'</option>';
+print '<option value="#5bc0de"'.($conf->global->CHAT_POPUP_BACKGROUND_COLOR == '#5bc0de' ? ' selected' : '').'>'.$langs->trans("SkyBlue").'</option>';
+print '<option value="#f0ad4e"'.($conf->global->CHAT_POPUP_BACKGROUND_COLOR == '#f0ad4e' ? ' selected' : '').'>'.$langs->trans("Orange").'</option>';
+print '<option value="#d9534f"'.($conf->global->CHAT_POPUP_BACKGROUND_COLOR == '#d9534f' ? ' selected' : '').'>'.$langs->trans("Red").'</option>';
+print '</select>';
+print '</td>';
+print '<td align="right">';
+print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+print '</td>';
+print '</tr>';
+print '</form>';
+
+// popup text color
+$var=!$var;
+print '<form action="'.$_SERVER["PHP_SELF"].'" method="POST">';
+print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'" />';
+print '<input type="hidden" name="action" value="set_CHAT_POPUP_TEXT_COLOR" />';
+print '<tr '.$bc[$var].'>';
+print '<td>'.$langs->trans("ChatPopupTextColor").'</td>';
+print '<td align="right">';
+print '<span id="popup-text-color-preview" style="display: inline-block; padding: 10px; border: 2px solid #ddd; border-radius: 50%; vertical-align: middle; margin-right: 10px; background: '.$conf->global->CHAT_POPUP_TEXT_COLOR.';"></span>';
+print '<select class="flat" name="value" onchange="$(\'#popup-text-color-preview\').css(\'background\', $(this).val());">';
+print '<option value="#fff"'.($conf->global->CHAT_POPUP_TEXT_COLOR == '#fff' ? ' selected' : '').'>'.$langs->trans("White").'</option>';
+print '<option value="#333"'.($conf->global->CHAT_POPUP_TEXT_COLOR == '#333' ? ' selected' : '').'>'.$langs->trans("Black").'</option>';
+print '</select>';
+print '</td>';
+print '<td align="right">';
+print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+print '</td>';
+print '</tr>';
+print '</form>';
+
+// popup counter color
+$var=!$var;
+print '<form action="'.$_SERVER["PHP_SELF"].'" method="POST">';
+print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'" />';
+print '<input type="hidden" name="action" value="set_CHAT_POPUP_COUNTER_COLOR" />';
+print '<tr '.$bc[$var].'>';
+print '<td>'.$langs->trans("ChatPopupCounterColor").'</td>';
+print '<td align="right">';
+print '<span id="popup-counter-color-preview" style="display: inline-block; padding: 10px; border: 2px solid #ddd; border-radius: 50%; vertical-align: middle; margin-right: 10px; background: '.$conf->global->CHAT_POPUP_COUNTER_COLOR.';"></span>';
+print '<select class="flat" name="value" onchange="$(\'#popup-counter-color-preview\').css(\'background\', $(this).val());">';
+print '<option value="#777"'.($conf->global->CHAT_POPUP_COUNTER_COLOR == '#777' ? ' selected' : '').'>'.$langs->trans("Grey").'</option>';
+print '<option value="#428bca"'.($conf->global->CHAT_POPUP_COUNTER_COLOR == '#428bca' ? ' selected' : '').'>'.$langs->trans("Blue").'</option>';
+print '<option value="#5cb85c"'.($conf->global->CHAT_POPUP_COUNTER_COLOR == '#5cb85c' ? ' selected' : '').'>'.$langs->trans("Green").'</option>';
+print '<option value="#5bc0de"'.($conf->global->CHAT_POPUP_COUNTER_COLOR == '#5bc0de' ? ' selected' : '').'>'.$langs->trans("SkyBlue").'</option>';
+print '<option value="#f0ad4e"'.($conf->global->CHAT_POPUP_COUNTER_COLOR == '#f0ad4e' ? ' selected' : '').'>'.$langs->trans("Orange").'</option>';
+print '<option value="#d9534f"'.($conf->global->CHAT_POPUP_COUNTER_COLOR == '#d9534f' ? ' selected' : '').'>'.$langs->trans("Red").'</option>';
+print '</select>';
+print '</td>';
+print '<td align="right">';
+print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+print '</td>';
+print '</tr>';
+print '</form>';
+
+// private message border color
+$var=!$var;
+print '<form action="'.$_SERVER["PHP_SELF"].'" method="POST">';
+print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'" />';
+print '<input type="hidden" name="action" value="set_CHAT_PRIVATE_MSG_BORDER_COLOR" />';
+print '<tr '.$bc[$var].'>';
+print '<td>'.$langs->trans("ChatPrivateMessageBorderColor").'</td>';
+print '<td align="right">';
+print '<span id="private-msg-border-color-preview" style="display: inline-block; padding: 10px; border: 2px solid #ddd; border-radius: 50%; vertical-align: middle; margin-right: 10px; background: '.$conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR.';"></span>';
+print '<select class="flat" name="value" onchange="$(\'#private-msg-border-color-preview\').css(\'background\', $(this).val());">';
+print '<option value="#fff"'.($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR == '#fff' ? ' selected' : '').'>'.$langs->trans("White").'</option>';
+print '<option value="#777"'.($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR == '#777' ? ' selected' : '').'>'.$langs->trans("Grey").'</option>';
+print '<option value="#428bca"'.($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR == '#428bca' ? ' selected' : '').'>'.$langs->trans("Blue").'</option>';
+print '<option value="#5cb85c"'.($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR == '#5cb85c' ? ' selected' : '').'>'.$langs->trans("Green").'</option>';
+print '<option value="#5bc0de"'.($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR == '#5bc0de' ? ' selected' : '').'>'.$langs->trans("SkyBlue").'</option>';
+print '<option value="#f0ad4e"'.($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR == '#f0ad4e' ? ' selected' : '').'>'.$langs->trans("Orange").'</option>';
+print '<option value="#d9534f"'.($conf->global->CHAT_PRIVATE_MSG_BORDER_COLOR == '#d9534f' ? ' selected' : '').'>'.$langs->trans("Red").'</option>';
+print '</select>';
+print '</td>';
+print '<td align="right">';
+print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
+print '</td>';
+print '</tr>';
+print '</form>';
 
 print '</table>';
 

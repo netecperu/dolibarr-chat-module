@@ -85,7 +85,7 @@ $object = new Chat($db);
 
 if ($action == 'send') {
     
-        if (empty($text))
+        if (empty($text) && empty($_FILES['attachment']['name']))
         {
             setEventMessage($langs->trans("PleaseTypeAMessage"), 'warnings');
         }

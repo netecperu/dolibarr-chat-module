@@ -62,6 +62,7 @@ if (! $is_chat_index_page)
 
 #chat_popup_toolbox {
     display: inline-block;
+    float: left;
     text-align: left;
     font-size: 13px;
     color: #333;
@@ -803,10 +804,6 @@ body::-webkit-scrollbar {
 
 .msg-attachment + .dropdown-content {
     padding: 0px;
-}
-
-.msg-attachment-dropdown {
-    width: 100%;
 }
 
 /*---- end of reskin ----*/

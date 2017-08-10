@@ -506,7 +506,7 @@ body::-webkit-scrollbar {
 }
 
 #chat_container .msg-text {
-    width: 80%;
+    width: 85%;
     padding: 0px;
     font-size: 14px;
     color: #333;
@@ -528,10 +528,6 @@ body::-webkit-scrollbar {
 
 .msg-attachment + .dropdown-content {
     padding: 0px;
-}
-
-.msg-attachment-dropdown {
-    width: 100%;
 }
 
 /*---- end of reskin ----*/

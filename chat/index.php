@@ -264,6 +264,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                                     $('#chat_container').html(response);
                                     chatScroll();
                                     setDeleteCheckboxClickEvent();
+                                    setAnchorClickEvent($('.msg .private'));
                                 }
                         });
                     }
@@ -282,7 +283,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                     function(response) {
                             $('#users_container').html(response);
                             filterUsers();
-                            setUserAnchorClickEvent();
+                            setAnchorClickEvent($('.user-anchor'));
                     });
         }
         
@@ -392,14 +393,15 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
             }
         }
         
-        function setUserAnchorClickEvent()
+        function setAnchorClickEvent(selector)
         {
-            $('.user-anchor').click(function() {
+            selector.click(function() {
                 $(this).attr('href', $(this).attr('href') + '&enter_to_send=' + ($('#enter-to-send').is(':checked') ? 'on' : '') + '&sort_by_date=' + ($('#sort-by-date').is(':checked') ? 'on' : ''));
             });
         }
         
-        setUserAnchorClickEvent();
+        setAnchorClickEvent($('.user-anchor'));
+        setAnchorClickEvent($('.msg .private'));
         
         $('#chat-head-back-btn').click(function() {
             $(this).attr('href', $(this).attr('href') + '?enter_to_send=' + ($('#enter-to-send').is(':checked') ? 'on' : '') + '&sort_by_date=' + ($('#sort-by-date').is(':checked') ? 'on' : ''));

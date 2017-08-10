@@ -76,7 +76,7 @@ foreach ($messages as $msg)
         <?php
             } // fin if ($user->rights->chat->delete->all || ($is_mine && $user->rights->chat->delete->mine))
         ?>
-        <a class="user-image <?php echo ($is_mine ? "pull-left" : "pull-right").($is_private_msg ? " private" : ""); ?>" href="#" title="<?php echo $userstatic->getFullName($langs).($is_private_msg ? " (".$langs->trans("Private").")" : ""); ?>">
+        <a class="user-image <?php echo ($is_mine ? "pull-left" : "pull-right").($is_private_msg ? " private" : ""); ?>" href="<?php echo $is_private_msg && ! $is_mine ? DOL_URL_ROOT.$mod_path.'/chat/index.php?action=private_msg&user_to_id='.$msg->fk_user : "#" ?>" alt="<?php echo $userstatic->getFullName($langs); ?>" title="<?php echo $userstatic->getFullName($langs).($is_private_msg ? " (".$langs->trans("Private").")".(! $is_mine ? "\n[".$langs->trans("ClickToReply")."]" : "") : ""); ?>">
             <?php
                 echo Form::showphoto('userphoto', $userstatic, 38, 38, 0, '', 'small', 0, 1);
             ?>

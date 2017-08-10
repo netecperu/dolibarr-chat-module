@@ -447,21 +447,21 @@ class Chat // extends CommonObject
                     $sql.= " WHERE m.fk_user_to IS NULL OR m.fk_user = ".$user->id." OR m.fk_user_to = ".$user->id;
                 }
 
-		dol_syslog(__METHOD__ . " sql=" . $sql, LOG_DEBUG);
-		$resql = $this->db->query($sql);
-		if ($resql) 
+                dol_syslog(__METHOD__ . " sql=" . $sql, LOG_DEBUG);
+                $resql = $this->db->query($sql);
+                if ($resql)
                 {
                         $obj = $this->db->fetch_object($resql);
-                        
+
                         $this->messages_count = $obj->msg_count;
-                        
+
                         $this->db->free($resql);
-                        
+
                         return 1;
-		}
+                }
                 else
                 {
-			return -1;
-		}
+                        return -1;
+                }
 	}
 }

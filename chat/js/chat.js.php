@@ -126,6 +126,8 @@ print "         var user_to_id = -1;
                             disableAjax = true;
                             getMessages(true, true);
                         });
+                        
+                        setPrivateMsgAnchorClickEvent();
                 });
                 
                 function chatScroll() {
@@ -146,6 +148,7 @@ print "         var user_to_id = -1;
                             {
                                 $('#chat_container').html(response);
                                 chatScroll();
+                                setPrivateMsgAnchorClickEvent();
                                 
                                 if (! disableCounter && new_msg_number > 0) {
                                     var unseen_msg_number = parseInt($('#chat_popup_counter').html());
@@ -203,6 +206,21 @@ print "         var user_to_id = -1;
                         getMessages(true, true);
                         
                         return false;
+                    });
+                }
+                
+                function setPrivateMsgAnchorClickEvent() {
+                    $('.msg .private').click(function(e) {
+                        if ($(this).attr('href') != '#') {
+                            $('#chat_popup_title').html($(this).attr('alt'));
+                            $('#chat-popup-back-btn').removeClass('hidden');
+                            var user_anchor_href = $(this).attr('href');
+                            user_to_id = parseInt(user_anchor_href.substr(user_anchor_href.lastIndexOf('=') + 1));
+                            disableAjax = true;
+                            getMessages(true, true);
+
+                            return false;
+                        }
                     });
                 }
                 

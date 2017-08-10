@@ -48,7 +48,7 @@ $(document).ready(function() {
 <?php
 
 print "         var user_to_id = -1;
-                var disableAjax = false;
+                var new_loop_count = 0;
                 
                 $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
                         action: \"get_popup_html\"
@@ -81,8 +81,7 @@ print "         var user_to_id = -1;
                                 function(response, status) {
                                         //alert(\"Response: \" + response + \"\\nStatus: \" + status);
                                         $('#msg_input').val('');
-                                        disableAjax = true;
-                                        getMessages(true);
+                                        getMessages(true, false, true);
                                 });
                             }
                             else {
@@ -123,8 +122,7 @@ print "         var user_to_id = -1;
                             $('#chat_popup_title').html('".$langs->trans("Module500001Name")."');
                             $('#chat-popup-back-btn').addClass('hidden');
                             user_to_id = -1;
-                            disableAjax = true;
-                            getMessages(true, true);
+                            getMessages(true, true, true);
                         });
                         
                         setPrivateMsgAnchorClickEvent();
@@ -134,7 +132,7 @@ print "         var user_to_id = -1;
                     $(\"#chat_container\").scrollTop($(\"#chat_container\")[0].scrollHeight);
                 }
                 
-                function getMessages(disableCounter = false, forceDisplay = false) {
+                function getMessages(disableCounter = false, forceDisplay = false, resetAjax = false) {
                     $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
                             action: \"fetch_msgs\",
                             filter_by_user: user_to_id
@@ -156,19 +154,31 @@ print "         var user_to_id = -1;
                                     $('#chat_popup_counter').html(new_msg_number).removeClass('hidden');
                                 }
                             }
-                            if (disableAjax) disableAjax = false;
+                            
+                            if (resetAjax) {
+                                fetchMessages(); // call new ajax loop (the old one will be stoped)
+                                new_loop_count++;
+                                //console.log('New ajax loop [' + new_loop_count + ']');
+                            }
                     });
                 }
                 
                 function fetchMessages() {
                     setTimeout( function(){
-                            if (! disableAjax) {
+                            if (new_loop_count == 0) {
+                                //console.log('[Ajax loop]');
                                 getMessages();
+                                
+                                fetchUsers();
+                                
+                                fetchMessages();
                             }
-                            
-                            fetchUsers();
-
-                            fetchMessages();
+                            else {
+                                //console.log('[Disable ajax loop] (loop count : ' + new_loop_count + ')');
+                                fetchUsers(); // fetch/refresh users only (before disabling loop)
+                                new_loop_count--; // disable current loop
+                                //console.log('New loop count : ' + new_loop_count);
+                            }
                     }, ".(! empty($conf->global->CHAT_AUTO_REFRESH_TIME) ? $conf->global->CHAT_AUTO_REFRESH_TIME * 1000 : 5000 ).");
                 }
 
@@ -202,8 +212,7 @@ print "         var user_to_id = -1;
                         $('#chat-popup-back-btn').removeClass('hidden');
                         var user_anchor_href = $(this).attr('href');
                         user_to_id = parseInt(user_anchor_href.substr(user_anchor_href.lastIndexOf('=') + 1));
-                        disableAjax = true;
-                        getMessages(true, true);
+                        getMessages(true, true, true);
                         
                         return false;
                     });
@@ -216,8 +225,7 @@ print "         var user_to_id = -1;
                             $('#chat-popup-back-btn').removeClass('hidden');
                             var user_anchor_href = $(this).attr('href');
                             user_to_id = parseInt(user_anchor_href.substr(user_anchor_href.lastIndexOf('=') + 1));
-                            disableAjax = true;
-                            getMessages(true, true);
+                            getMessages(true, true, true);
 
                             return false;
                         }

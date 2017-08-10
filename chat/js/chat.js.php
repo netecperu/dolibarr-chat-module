@@ -169,13 +169,10 @@ print "         var user_to_id = -1;
                                 //console.log('[Ajax loop]');
                                 getMessages();
                                 
-                                fetchUsers();
-                                
-                                fetchMessages();
+                                fetchMessages(); // re-loop
                             }
                             else {
                                 //console.log('[Disable ajax loop] (loop count : ' + new_loop_count + ')');
-                                fetchUsers(); // fetch/refresh users only (before disabling loop)
                                 new_loop_count--; // disable current loop
                                 //console.log('New loop count : ' + new_loop_count);
                             }
@@ -185,18 +182,25 @@ print "         var user_to_id = -1;
                 fetchMessages();
                 
                 function fetchUsers() {
-                    $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
-                            action: \"fetch_users\",
-                            only_online: true
-                    },
-                    function(response) {
-                            $('#users_container').html(response);
-                            // set online users number
-                            $('#online-users-counter').html('(' + $(response).filter('.user-anchor').length + ')');
-                            // set click event on user anchor
-                            setUserAnchorClickEvent();
-                    });
+                    setTimeout( function(){
+                        //console.log('[Fetch users loop]');
+                        $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
+                                action: \"fetch_users\",
+                                only_online: true
+                        },
+                        function(response) {
+                                $('#users_container').html(response);
+                                // set online users number
+                                $('#online-users-counter').html('(' + $(response).filter('.user-anchor').length + ')');
+                                // set click event on user anchor
+                                setUserAnchorClickEvent();
+                        });
+                        
+                        fetchUsers(); // re-loop
+                    }, ".(! empty($conf->global->CHAT_AUTO_REFRESH_TIME) ? $conf->global->CHAT_AUTO_REFRESH_TIME * 1000 : 5000 ).");
                 }
+                
+                fetchUsers();
                 
                 function hidePopupCounter() {
                     // hide popup counter if shown (+ free html)

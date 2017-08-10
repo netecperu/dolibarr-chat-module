@@ -32,7 +32,7 @@ if (false === (@include '../../main.inc.php')) {  // From htdocs directory
 	$mod_path = "/custom";
 }
 
-global $conf;
+global $conf, $langs;
 
 header('Content-Type: text/javascript');
 
@@ -47,8 +47,9 @@ $(document).ready(function() {
 
 <?php
 
-print "         var disableCounter = false;
-    
+print "         var user_to_id = -1;
+                var disableAjax = false;
+                
                 $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
                         action: \"get_popup_html\"
                 },
@@ -74,13 +75,14 @@ print "         var disableCounter = false;
                             if ($('#msg_input').val() != '') { // if message field is not empty
                                 $.post( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
                                         action: \"send_msg\",
-                                        msg: $('#msg_input').val()
+                                        msg: $('#msg_input').val(),
+                                        user_to_id: user_to_id
                                 },
                                 function(response, status) {
                                         //alert(\"Response: \" + response + \"\\nStatus: \" + status);
                                         $('#msg_input').val('');
-                                        disableCounter = true;
-                                        getMessages();
+                                        disableAjax = true;
+                                        getMessages(true);
                                 });
                             }
                             else {
@@ -104,40 +106,64 @@ print "         var disableCounter = false;
                         $('#chat_container').click(function(e) {
                             hidePopupCounter();
                         });
+                        
+                        $(document).click(function() {
+                            $('.dropdown-click .dropdown-content').removeClass('show');
+                        });
+
+                        $('.drop-btn').click(function(e) {
+                            e.stopPropagation();
+                            $('.dropdown-click .dropdown-content').removeClass('show');
+                            $(this).next().addClass('show');
+                        });
+                        
+                        setUserAnchorClickEvent();
+                        
+                        $('#chat-popup-back-btn').click(function(e) {
+                            $('#chat_popup_title').html('".$langs->trans("Module500001Name")."');
+                            $('#chat-popup-back-btn').addClass('hidden');
+                            user_to_id = -1;
+                            disableAjax = true;
+                            getMessages(true, true);
+                        });
                 });
                 
                 function chatScroll() {
                     $(\"#chat_container\").scrollTop($(\"#chat_container\")[0].scrollHeight);
                 }
                 
-                function getMessages() {
+                function getMessages(disableCounter = false, forceDisplay = false) {
                     $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
-                            action: \"fetch_msgs\"
+                            action: \"fetch_msgs\",
+                            filter_by_user: user_to_id
                     },
                     function(response) {
+                            //console.log(disableCounter + '-' + forceDisplay);
+                            //console.log($(response).filter('#msg_number').val() + '-' + $('#msg_number').val());
                             // s'il y'a des nouveaux messages (ou message(s) supprimé(s))
                             var new_msg_number = $(response).filter('#msg_number').val() - $('#msg_number').val();
-                            if (new_msg_number != 0)
+                            if (forceDisplay || new_msg_number != 0)
                             {
                                 $('#chat_container').html(response);
                                 chatScroll();
                                 
-                                if (disableCounter) {
-                                    disableCounter = false;
-                                }
-                                else if (new_msg_number > 0) {
+                                if (! disableCounter && new_msg_number > 0) {
                                     var unseen_msg_number = parseInt($('#chat_popup_counter').html());
                                     if (unseen_msg_number > 0) new_msg_number += unseen_msg_number;
                                     $('#chat_popup_counter').html(new_msg_number).removeClass('hidden');
                                 }
                             }
+                            if (disableAjax) disableAjax = false;
                     });
                 }
                 
                 function fetchMessages() {
                     setTimeout( function(){
-                    
-                            getMessages();
+                            if (! disableAjax) {
+                                getMessages();
+                            }
+                            
+                            fetchUsers();
 
                             fetchMessages();
                     }, ".(! empty($conf->global->CHAT_AUTO_REFRESH_TIME) ? $conf->global->CHAT_AUTO_REFRESH_TIME * 1000 : 5000 ).");
@@ -145,11 +171,39 @@ print "         var disableCounter = false;
 
                 fetchMessages();
                 
+                function fetchUsers() {
+                    $.get( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
+                            action: \"fetch_users\",
+                            only_online: true
+                    },
+                    function(response) {
+                            $('#users_container').html(response);
+                            // set online users number
+                            $('#online-users-counter').html('(' + $(response).filter('.user-anchor').length + ')');
+                            // set click event on user anchor
+                            setUserAnchorClickEvent();
+                    });
+                }
+                
                 function hidePopupCounter() {
                     // hide popup counter if shown (+ free html)
                     if (! $('#chat_popup_counter').hasClass('hidden')) {
                         $('#chat_popup_counter').html('').addClass('hidden');
                     }
+                }
+                
+                function setUserAnchorClickEvent() {
+                    $('.user-anchor').click(function(e) {
+                        $('.dropdown-click .dropdown-content').removeClass('show');
+                        $('#chat_popup_title').html($(this).find('.media-heading span').html());
+                        $('#chat-popup-back-btn').removeClass('hidden');
+                        var user_anchor_href = $(this).attr('href');
+                        user_to_id = parseInt(user_anchor_href.substr(user_anchor_href.lastIndexOf('=') + 1));
+                        disableAjax = true;
+                        getMessages(true, true);
+                        
+                        return false;
+                    });
                 }
                 
                 ";

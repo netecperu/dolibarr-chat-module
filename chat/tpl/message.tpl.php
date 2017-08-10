@@ -34,7 +34,9 @@ $currentday = "";
 $userstatic = new User($db);
 
 // définition du nombre de message disponible
-$msgnumber = count($object->messages) > 0 ? $object->messages[0]->msg_number : 0;
+// $object->messages_count représente le nombre total de message dans la table sans limite
+// tandis que count($object->messages) est limité (à 50 message par défaut)
+$msgnumber = count($object->messages) > 0 ? $object->messages_count : 0;
 print '<input id="msg_number" type="hidden" value="'.$msgnumber.'" />';
 
 // affichage des messages

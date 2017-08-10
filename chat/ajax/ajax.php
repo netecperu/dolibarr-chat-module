@@ -36,7 +36,8 @@ dol_include_once($mod_path.'/chat/class/chat.class.php');
 $action	= GETPOST('action','alpha');
 $filter_user = GETPOST('filter_user','alpha');
 $show_date = GETPOST('show_date','alpha');
-$user_to_id = GETPOST('filter_by_user','int');
+$user_to_id = ! empty(GETPOST('user_to_id','int')) ? GETPOST('user_to_id','int') : GETPOST('filter_by_user','int');
+$only_online = GETPOST('only_online','alpha');
 
 // Access control
 if ($user->socid > 0 || !$user->rights->chat->lire) {
@@ -73,6 +74,15 @@ if (isset($action) && ! empty($action))
             
             // récupération des utilisateurs
             $result = $object->fetch_users($user, 1, $filter_user, 1);
+            
+            if ($only_online == 'true') {
+                // filter online users
+                foreach ($object->users as $user_rowid => $f_user) {
+                    if (! $f_user->is_online) {
+                        unset($object->users[$user_rowid]);
+                    }
+                }
+            }
 
             if ($result)
             {
@@ -85,10 +95,28 @@ if (isset($action) && ! empty($action))
             
             // récupération des messages (to populate popup)
             $result = $object->fetch_messages($user);
-
+            // PS: fetch_messages() get users without checking if online (so we can't use that..)
+            
             if ($result)
             {
-                include_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/tpl/popup.tpl.php';
+                // free users array
+                unset($object->users);
+                $object->users = array();
+                
+                // fetch users
+                $result = $object->fetch_users($user, 1, $filter_user, 1);
+                
+                // filter online users
+                foreach ($object->users as $user_rowid => $f_user) {
+                    if (! $f_user->is_online) {
+                        unset($object->users[$user_rowid]);
+                    }
+                }
+                
+                if ($result)
+                {
+                    include_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/tpl/popup.tpl.php';
+                }
             }
         } // fin if ($action == 'get_popup_html')
         else if ($action == 'send_msg')
@@ -99,6 +127,7 @@ if (isset($action) && ! empty($action))
             {
                 $_POST['action'] = 'send';
                 $_POST['text'] = $msg;
+                $_POST['user_to_id'] = $user_to_id;
                 
                 ob_start();
                 

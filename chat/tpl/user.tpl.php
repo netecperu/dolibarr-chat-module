@@ -51,9 +51,12 @@ foreach ($object->users as $obj)
             </span>
             <div class="media-body">
                 <h5 class="media-heading">
+                    <span>
+                        <?php
+                            echo $userstatic->getFullName($langs);
+                        ?>
+                    </span>
                     <?php
-                        echo $userstatic->getFullName($langs);
-
                         if (! empty($conf->multicompany->enabled) && $obj->admin && ! $obj->entity)
                         {
                             print img_picto($langs->trans("SuperAdministrator"),'redstar');
@@ -66,7 +69,7 @@ foreach ($object->users as $obj)
                         // si utilisateur en ligne
                         if ($obj->is_online)
                         {
-                            print ' <img class="align-middle" title="'.$langs->trans("Online").'" alt="" src="img/online.png"/>';
+                            print ' <img class="online-icon align-middle" title="'.$langs->trans("Online").'" alt="" src="'.DOL_URL_ROOT.$mod_path.'/chat/img/online.png"/>';
                         }
                     ?>
                 </h5>

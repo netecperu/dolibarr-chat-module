@@ -51,6 +51,8 @@ class Chat // extends CommonObject
 	public $users = array();
         /** @var mixed An example property */
 	public $messages = array();
+        /** @var int Total messages count */
+	public $messages_count = 0;
 
 	/**
 	 * Constructor
@@ -364,7 +366,6 @@ class Chat // extends CommonObject
                 $limit = ! empty($conf->global->CHAT_MAX_MSG_NUMBER) ? $conf->global->CHAT_MAX_MSG_NUMBER : 50;
                 
 		$sql = "SELECT m.rowid as id, m.fk_user";
-                $sql.= ", (SELECT count(rowid) FROM ".MAIN_DB_PREFIX."chat_msg WHERE fk_user_to IS NULL OR fk_user = ".$user->id." OR fk_user_to = ".$user->id.") as msg_number";
                 //$sql.= ", (SELECT count(*) FROM ".MAIN_DB_PREFIX."chat_online WHERE online_user = m.fk_user) as is_online";
                 $sql.= ", m.post_time, m.text, m.fk_user_to, m.status";
                 $sql.= ", a.name as attachment_name, a.type as attachment_type, a.size as attachment_size";
@@ -409,13 +410,57 @@ class Chat // extends CommonObject
                             }
                         }
                         
+                        
+                        
 			$this->db->free($resql);
+                        
+                        // on récupère le nombre total de message
+                        $this->get_messages_count($user, $user_to_id);
 
 			return 1;
 		} else {
 			$this->error = "Error " . $this->db->lasterror();
 			dol_syslog(__METHOD__ . " " . $this->error, LOG_ERR);
 
+			return -1;
+		}
+	}
+        
+        /**
+	 * Load object in memory from database
+	 *
+	 * @param int $id Id object
+	 * @return int <0 if KO, >0 if OK
+	 */
+	public function get_messages_count($user, $user_to_id = -1)
+	{
+		global $conf, $langs;
+                
+                // on récupère le nombre total de message
+                $sql = "SELECT count(rowid) as msg_count";
+                $sql.= " FROM ".MAIN_DB_PREFIX."chat_msg as m";
+                if ($user_to_id > 0) {
+                    $sql.= " WHERE (m.fk_user = ".$user->id." AND m.fk_user_to = ".$user_to_id.")";
+                    $sql.= " OR (m.fk_user = ".$user_to_id." AND m.fk_user_to = ".$user->id.")";
+                }
+                else {
+                    $sql.= " WHERE m.fk_user_to IS NULL OR m.fk_user = ".$user->id." OR m.fk_user_to = ".$user->id;
+                }
+
+		dol_syslog(__METHOD__ . " sql=" . $sql, LOG_DEBUG);
+		$resql = $this->db->query($sql);
+		if ($resql) 
+                {
+                        $obj = $this->db->fetch_object($resql);
+                        
+                        $this->messages_count = $obj->msg_count;
+                        
+                        $this->db->free($resql);
+                        
+                        return 1;
+		}
+                else
+                {
 			return -1;
 		}
 	}

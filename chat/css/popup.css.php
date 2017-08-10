@@ -224,8 +224,8 @@ if (! $is_chat_index_page)
     font-size: 12px;
     line-height: 1.5;
     border-radius: 3px;
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 .pull-right {
@@ -453,6 +453,8 @@ small, .small {
 .dropdown-image {
     max-width: 300px;
     max-height: 200px;
+    display: inline-block;
+    float: left;
 }
 
 .drop-btn {
@@ -521,11 +523,29 @@ small, .small {
 }
 
 #smiley-dropdown td img {
-    padding: 10px;
+    padding: 5px;
     cursor: pointer;
 }
 
 #smiley-dropdown td:hover {background-color: #f1f1f1}
+
+#smiley-dropdown {
+    right: 0px;
+}
+
+#smiley-btn {
+    padding: 5px 10px;
+    margin-left: -1px;
+}
+
+#send_btn {
+    margin-left: -5px;
+    outline: none;
+}
+
+#send_btn::-moz-focus-inner {
+    border: 0;
+}
 
 #private-msg-to-user {
     margin-bottom: 10px;

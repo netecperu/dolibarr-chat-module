@@ -115,9 +115,9 @@ function parseSmiley($text, $path = "")
 	return str_replace(array_keys($smilies), array_values($smilies), $text);
 }
 
-function printSmileyList()
+function printSmileyList($path = "")
 {
-        $smilies = getSmilies();
+        $smilies = getSmilies($path);
         $keys = array_keys($smilies);
         $smilies_number = count($smilies);
         

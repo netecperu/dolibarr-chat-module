@@ -64,6 +64,14 @@ $langs = $GLOBALS['langs'];
             <div class="input-group">
                 <input id="msg_input" type="text" class="form-control input-sm" placeholder="<?php echo $langs->trans("TypeAMessagePlaceHolder"); ?>" />
                 <span class="input-group-btn">
+                    <!-- Smiley -->
+                    <div class="dropdown-click">
+                        <label id="smiley-btn" class="drop-btn btn btn-default btn-sm"><img class="btn-icon" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/smiley.png'; ?>" /></label>
+                        <div id="smiley-dropdown" class="dropdown-content dropdown-top">
+                            <?php echo printSmileyList(DOL_URL_ROOT.$mod_path.'/chat/'); ?>
+                        </div>
+                    </div>
+                    <!-- Send -->
                     <button class="btn btn-default btn-sm" id="send_btn">
                         <img class="align-middle" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/send.png'; ?>" />
                     </button>

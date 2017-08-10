@@ -38,6 +38,10 @@ overflow: hidden !important;
 height: 100%;
 }
 
+#chatForm .form-control:focus {
+    border-color: #66AFE9 !important;
+}
+
 /*---- Bootstrap ----*/
 
 .form-control, .form-control:before, .form-control:after {
@@ -190,6 +194,8 @@ small, .small {
 .dropdown-image {
     max-width: 300px;
     max-height: 200px;
+    display: inline-block;
+    float: left;
 }
 
 .drop-btn {

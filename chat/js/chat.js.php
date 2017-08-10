@@ -126,6 +126,11 @@ print "         var user_to_id = -1;
                         });
                         
                         setPrivateMsgAnchorClickEvent();
+                        
+                        $('#smiley-dropdown img.smiley').click(function() {
+                            var new_val = $('#msg_input').val() + $(this).attr('title');
+                            $('#msg_input').val(new_val);
+                        });
                 });
                 
                 function chatScroll() {

@@ -28,6 +28,7 @@ Module500001Desc = Chat module for Dolibarr
 Permission500002 = Read messages & download attachments
 Permission500003 = Delete his own messages
 Permission500004 = Delete any message(s)
+Permission500005 = See online users
 
 #
 # Admin page

@@ -32,7 +32,7 @@ if (false === (@include '../../main.inc.php')) {  // From htdocs directory
 	$mod_path = "/custom";
 }
 
-global $conf, $langs;
+global $conf, $langs, $user;
 
 header('Content-Type: text/javascript');
 
@@ -184,6 +184,8 @@ print "         var user_to_id = -1;
 
                 fetchMessages();
                 
+                ".($user->rights->chat->see_online_users ? "
+                    
                 function fetchUsers() {
                     setTimeout( function(){
                         //console.log('[Fetch users loop]');
@@ -205,6 +207,8 @@ print "         var user_to_id = -1;
                 
                 fetchUsers();
                 
+                " : "")."
+                    
                 function hidePopupCounter() {
                     // hide popup counter if shown (+ free html)
                     if (! $('#chat_popup_counter').hasClass('hidden')) {

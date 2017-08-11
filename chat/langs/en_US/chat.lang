@@ -23,11 +23,12 @@
 Module500001Name = Chat
 # Module description 'ModuleXXXDesc'
 # (where XXX is value of numeric property 'numero' of module)
-Module500001Desc = Chat module description
+Module500001Desc = Chat module for Dolibarr
 # Permissions
 Permission500002 = Read messages & download attachments
 Permission500003 = Delete his own messages
 Permission500004 = Delete any message(s)
+Permission500005 = See online users
 
 #
 # Admin page

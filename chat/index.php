@@ -448,9 +448,16 @@ else $classviewhide='visible';
         <img class="btn-icon caret" title="" alt="" src="img/arrow-down.png" />
         <label id="selected-users-filter" class="drop-btn btn"><img class="btn-icon" title="" alt="" src="img/users.png" /><?php echo ' '.$langs->trans("AllUsers"); ?></label>
         <div class="dropdown-content dropdown-bottom">
+            <?php
+                if ($user->rights->chat->see_online_users)
+                {
+            ?>
             <div>
                 <label class="align-middle cursor-pointer"><img class="btn-icon" title="<?php echo $langs->trans("Online"); ?>" alt="online-users" src="img/online.png" /><?php echo ' '.$langs->trans("OnlineUsers"); ?></label>
             </div>
+            <?php
+                }
+            ?>
             <div>
                 <label class="align-middle cursor-pointer"><?php echo img_picto($langs->trans("Administrator").':admin','star').' '.$langs->trans("Administrator"); ?></label>
             </div>

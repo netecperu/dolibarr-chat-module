@@ -23,6 +23,7 @@
 $mod_path= $GLOBALS['mod_path'];
 $langs = $GLOBALS['langs'];
 $conf = $GLOBALS['conf'];
+$user = $GLOBALS['user'];
 
 ?>
 <div id="chat_popup">
@@ -35,6 +36,10 @@ $conf = $GLOBALS['conf'];
     <div class="panel-collapse collapse" id="collapseOne">
         <div id="chat_popup_toolbox">
             <label id="chat-popup-back-btn" class="popup-option align-middle cursor-pointer hidden"><img class="btn-icon" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/arrow-back.png'; ?>" /><?php echo ' '.$langs->trans("Back"); ?></label>
+            <?php
+                if ($user->rights->chat->see_online_users)
+                {
+            ?>
             <div id="online-users-switch" class="dropdown-click popup-option">
                 <label class="drop-btn cursor-pointer">
                     <img class="btn-icon" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/online.png'; ?>" />
@@ -50,6 +55,9 @@ $conf = $GLOBALS['conf'];
                     </div>
                 </div>
             </div>
+            <?php
+                }
+            ?>
         </div>
         <div id="chat_container" class="panel-body msg-wrap">
             <?php

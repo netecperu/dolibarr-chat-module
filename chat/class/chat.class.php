@@ -91,7 +91,7 @@ class Chat // extends CommonObject
                 
                 // fetch users
 		$sql = "SELECT u.rowid, u.lastname, u.firstname, u.admin, u.gender, u.photo, u.datelastlogin";
-                if ($check_online)
+                if ($check_online && $user->rights->chat->see_online_users)
                 {
                     $sql.= ", (SELECT count(*) FROM ".MAIN_DB_PREFIX."chat_online WHERE online_user = u.rowid) as is_online";
                 }

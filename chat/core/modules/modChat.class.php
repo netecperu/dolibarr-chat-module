@@ -188,6 +188,13 @@ class modChat extends DolibarrModules
 		$this->rights[$r][4] = 'delete';
                 $this->rights[$r][5] = 'all';
                 $r++;
+                
+                $this->rights[$r][0] = 500005;
+		$this->rights[$r][1] = 'Voir les utilisateurs en ligne';
+		$this->rights[$r][2] = 'a';
+		$this->rights[$r][3] = 1;
+		$this->rights[$r][4] = 'see_online_users';
+                $r++;
 
 		// Main menu entries
 		$this->menu = array();

@@ -30,6 +30,8 @@ if (false === (@include '../../main.inc.php')) {  // From htdocs directory
 
 global $db, $langs, $user;
 
+require_once DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php";
+
 dol_include_once($mod_path.'/chat/class/chat.class.php');
 
 // Get parameters
@@ -38,6 +40,7 @@ $filter_user = GETPOST('filter_user','alpha');
 $show_date = GETPOST('show_date','alpha');
 $user_to_id = ! empty(GETPOST('user_to_id','int')) ? GETPOST('user_to_id','int') : GETPOST('filter_by_user','int');
 $only_online = GETPOST('only_online','alpha');
+$state	= GETPOST('state','int');
 
 // Access control
 if ($user->socid > 0 || !$user->rights->chat->lire) {
@@ -119,6 +122,19 @@ if (isset($action) && ! empty($action))
                 }
             }
         } // fin if ($action == 'get_popup_html')
+        else if ($action == 'set_popup_state')
+	{
+            $result = dolibarr_set_const($db, "CHAT_POPUP_OPENED",$state,'chaine',0,'',$conf->entity);
+            
+            //if ($result > 0)
+            //{
+                //print 'saved';
+            //}
+            //else
+            //{
+                //print 'error';
+            //}
+        } // fin if ($action == 'set_popup_state')
         else if ($action == 'send_msg')
 	{
             $msg = GETPOST('msg', 'alpha');

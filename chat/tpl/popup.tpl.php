@@ -33,7 +33,7 @@ $user = $GLOBALS['user'];
             <img class="align-middle" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/'.($conf->global->CHAT_POPUP_TEXT_COLOR == '#fff' ? 'chat-16-white.png' : 'chat-16.png'); ?>" />
             <span id="chat_popup_title" class="align-middle"><?php echo $langs->trans("Module500001Name"); ?></span>
         </div>
-    <div class="panel-collapse collapse" id="collapseOne">
+    <div class="panel-collapse collapse <?php echo $conf->global->CHAT_POPUP_OPENED ? "in" : ""; ?>" id="collapseOne">
         <div id="chat_popup_toolbox">
             <label id="chat-popup-back-btn" class="popup-option align-middle cursor-pointer hidden"><img class="btn-icon" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/arrow-back.png'; ?>" /><?php echo ' '.$langs->trans("Back"); ?></label>
             <?php

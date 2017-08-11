@@ -61,11 +61,13 @@ print "         var user_to_id = -1;
                         $('#accordion').click(function(e) {
                             if ($('#collapseOne').hasClass('in')) {
                                 $('#collapseOne').slideUp().removeClass('in');
+                                setPopupState(0);
                             }
                             else {
                                 $('#collapseOne').slideDown().addClass('in');
                                 chatScroll();
                                 hidePopupCounter();
+                                setPopupState(1);
                             }
                         });
                         
@@ -240,6 +242,16 @@ print "         var user_to_id = -1;
 
                             return false;
                         }
+                    });
+                }
+                
+                function setPopupState(state) {
+                    $.post( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
+                            action: \"set_popup_state\",
+                            state: state
+                    },
+                    function(response, status) {
+                            //alert(\"Response: \" + response + \"\\nStatus: \" + status);
                     });
                 }
                 

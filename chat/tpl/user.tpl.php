@@ -43,7 +43,7 @@ foreach ($object->users as $obj)
     // j'ai spécifié juste ces attributs car ce sont les attributs nécessaires pour les fonctions de récupération de nom complet et photo
 ?>
     <a class="user-anchor" href="<?php echo DOL_URL_ROOT.$mod_path.'/chat/index.php?action=private_msg&user_to_id='.$obj->rowid; ?>" title="<?php echo $langs->trans("SendPrivateMessage"); ?>">
-        <div class="media conversation <?php echo $obj->is_online ? "is_online" : ""; ?>">
+        <div class="media conversation <?php echo ($obj->is_online ? "is_online" : "").($obj->admin ? " is_admin" : ""); ?>">
             <span class="pull-left user-image">
                 <?php
                     echo Form::showphoto('userphoto', $userstatic, 64, 64, 0, '', 'small', 0, 1);

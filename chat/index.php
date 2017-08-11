@@ -385,8 +385,15 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
         
         function filterUsers()
         {
-            if ($('#selected-users-filter .btn-icon').attr('alt') == 'online-users') {
+            var filter = $('#selected-users-filter img').attr('alt');
+            
+            if (filter == 'online-users') {
                 $('.conversation:not(.is_online)').hide();
+                $('.is_online').show();
+            }
+            else if (filter == 'admin') {
+                $('.conversation:not(.is_admin)').hide();
+                $('.is_admin').show();
             }
             else {
                 $('.conversation').show();
@@ -442,7 +449,10 @@ else $classviewhide='visible';
         <label id="selected-users-filter" class="drop-btn btn"><img class="btn-icon" title="" alt="" src="img/users.png" /><?php echo ' '.$langs->trans("AllUsers"); ?></label>
         <div class="dropdown-content dropdown-bottom">
             <div>
-                <label class="align-middle cursor-pointer"><img class="btn-icon" title="online" alt="online-users" src="img/online.png" /><?php echo ' '.$langs->trans("OnlineUsers"); ?></label>
+                <label class="align-middle cursor-pointer"><img class="btn-icon" title="<?php echo $langs->trans("Online"); ?>" alt="online-users" src="img/online.png" /><?php echo ' '.$langs->trans("OnlineUsers"); ?></label>
+            </div>
+            <div>
+                <label class="align-middle cursor-pointer"><?php echo img_picto($langs->trans("Administrator").':admin','star').' '.$langs->trans("Administrator"); ?></label>
             </div>
         </div>
     </div>

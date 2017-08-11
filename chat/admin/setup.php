@@ -292,7 +292,7 @@ print '<td align="right">';
 print '<select class="flat" name="value">';
 print '<option value="30%"'.($conf->global->CHAT_POPUP_SIZE == '30%' ? ' selected' : '').'>'.$langs->trans("Small").'</option>';
 print '<option value="40%"'.($conf->global->CHAT_POPUP_SIZE == '40%' ? ' selected' : '').'>'.$langs->trans("Medium").'</option>';
-print '<option value="45%"'.($conf->global->CHAT_POPUP_SIZE == '45%' ? ' selected' : '').'>'.$langs->trans("Large").'</option>';
+print '<option value="50%"'.($conf->global->CHAT_POPUP_SIZE == '50%' ? ' selected' : '').'>'.$langs->trans("Large").'</option>';
 print '</select>';
 print '</td>';
 print '<td align="right">';

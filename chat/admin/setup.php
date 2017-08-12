@@ -122,6 +122,23 @@ else if ($action == 'set_CHAT_SHOW_IMAGES_PREVIEW')
     }
 }
 
+// set enable chat popup constant
+else if ($action == 'set_CHAT_ENABLE_POPUP')
+{
+    $res = dolibarr_set_const($db, "CHAT_ENABLE_POPUP",$value,'chaine',0,'',$conf->entity);
+
+    if (! $res > 0) $error++;
+
+    if (! $error)
+    {
+        setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
+    }
+    else
+    {
+        setEventMessages($langs->trans("Error"), null, 'errors');
+    }
+}
+
 // set chat popup size constant
 else if ($action == 'set_CHAT_POPUP_SIZE')
 {
@@ -278,6 +295,20 @@ if (empty($conf->global->CHAT_SHOW_IMAGES_PREVIEW))
 else
 {
     print '<a href="'.$_SERVER['PHP_SELF'].'?action=set_CHAT_SHOW_IMAGES_PREVIEW&amp;value=0">'.img_picto($langs->trans("Enabled"),'switch_on').'</a>';
+}
+print '</td></tr>';
+
+// enable chat popup
+$var=!$var;
+print '<tr '.$bc[$var].'><td>';
+print $langs->trans("EnableChatPopup").'</td><td>&nbsp</td><td align="center">';
+if (empty($conf->global->CHAT_ENABLE_POPUP))
+{
+    print '<a href="'.$_SERVER['PHP_SELF'].'?action=set_CHAT_ENABLE_POPUP&amp;value=1">'.img_picto($langs->trans("Disabled"),'switch_off').'</a>';
+}
+else
+{
+    print '<a href="'.$_SERVER['PHP_SELF'].'?action=set_CHAT_ENABLE_POPUP&amp;value=0">'.img_picto($langs->trans("Enabled"),'switch_on').'</a>';
 }
 print '</td></tr>';
 

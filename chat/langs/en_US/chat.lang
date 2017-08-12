@@ -56,6 +56,7 @@ White = White
 Black = Black
 ChatPopupCounterColor = Chat popup notification label color
 ChatPrivateMessageBorderColor = Private messages border color
+EnableChatPopup = Enable chat popup
 
 #
 # About page

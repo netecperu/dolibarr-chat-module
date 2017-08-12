@@ -164,6 +164,15 @@ class modChat extends DolibarrModules
                                 true, // Constant visibility
                                 'current', // Constant entity 'current' or 'allentities'
                                 false // Delete constant when module is disabled
+                        ),
+                        9 => array(
+                                'CHAT_ENABLE_POPUP', // Constant name
+                                'chaine', // Constant type
+                                '1', // Constant value
+                                'Show or not the chat popup', // Constant description
+                                true, // Constant visibility
+                                'current', // Constant entity 'current' or 'allentities'
+                                false // Delete constant when module is disabled
                         )
                 );
 		

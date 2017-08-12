@@ -56,6 +56,7 @@ White = Blanc
 Black = Noir
 ChatPopupCounterColor = Couleur du libellé de notification de la fenêtre popup
 ChatPrivateMessageBorderColor = Couleur de la bordure des messages privés
+EnableChatPopup = Activer l'affichage de la fenêtre popup
 
 #
 # Page À propos

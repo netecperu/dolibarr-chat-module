@@ -38,7 +38,7 @@ header('Content-Type: text/javascript');
 
 $is_chat_index_page = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_PATH) == DOL_URL_ROOT.$mod_path.'/chat/index.php' ? true : false;
 
-if (! empty($conf->use_javascript_ajax) && ! $is_chat_index_page)
+if ($conf->global->CHAT_ENABLE_POPUP && ! empty($conf->use_javascript_ajax) && ! $is_chat_index_page)
 {
 
 ?>

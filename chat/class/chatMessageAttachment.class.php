@@ -127,7 +127,7 @@ class ChatMessageAttachment // extends CommonObject
                 $sql.= " size";
 
 		$sql.= ") VALUES (";
-		$sql.= " '" . $this->name . "',";
+		$sql.= " '" . $this->db->escape($this->name) . "',";
                 $sql.= " '" . $this->type . "',";
                 $sql.= " '" . $this->size . "'";
 		$sql.= ")";
@@ -152,7 +152,7 @@ class ChatMessageAttachment // extends CommonObject
 
                                 if (@is_dir($dir)) {
                                         $newfile = $dir.'/'.$this->name;
-                                        $result = dol_move_uploaded_file($_FILES['attachment']['tmp_name'], $newfile, 1, 0, $_FILES['attachment']['error']);
+                                        $result = dol_move_uploaded_file($_FILES['attachment']['tmp_name'], $newfile, 1, 0, $_FILES['attachment']['error'], 1);
 
                                         if (!$result > 0) {
                                                 $langs->load("errors");

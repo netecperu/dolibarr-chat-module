@@ -25,7 +25,6 @@
  */
 
 // Load Dolibarr environment
-global $mod_path;
 $mod_path = "";
 if (false === (@include '../../main.inc.php')) {  // From htdocs directory
 	require '../../../main.inc.php'; // From "custom" directory

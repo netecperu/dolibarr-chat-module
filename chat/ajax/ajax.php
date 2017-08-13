@@ -21,7 +21,6 @@
  */
 
 // Load Dolibarr environment
-global $mod_path;
 $mod_path = "";
 if (false === (@include '../../main.inc.php')) {  // From htdocs directory
 	require '../../../main.inc.php'; // From "custom" directory
@@ -32,7 +31,8 @@ global $db, $langs, $user;
 
 require_once DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php";
 
-dol_include_once($mod_path.'/chat/class/chat.class.php');
+dol_include_once('/chat/class/chat.class.php'); // this function support custom folder
+dol_include_once('/chat/class/chatMessage.class.php');
 
 // Get parameters
 $action	= GETPOST('action','alpha');
@@ -141,17 +141,18 @@ if (isset($action) && ! empty($action))
             
             if (! empty($msg))
             {
-                $_POST['action'] = 'send';
-                $_POST['text'] = $msg;
-                $_POST['user_to_id'] = $user_to_id;
+                $now = dol_now();
+
+                $myobject = new ChatMessage($db);
+                $myobject->post_time = $now;
+                $myobject->text = $msg;
+                $myobject->fk_user_to = $user_to_id;
                 
-                ob_start();
+                // TODO: add ajax attachment support
                 
-                include_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/index.php';
+                $result = $myobject->send($user);
                 
-                $output = ob_get_clean();
-                
-                //print $output;
+                //print $result;
             }
             //else
             //{

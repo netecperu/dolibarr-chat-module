@@ -27,26 +27,14 @@
 if (! defined('REQUIRE_JQUERY_LAYOUT'))  define('REQUIRE_JQUERY_LAYOUT','1');
 //if (! defined('REQUIRE_JQUERY_BLOCKUI')) define('REQUIRE_JQUERY_BLOCKUI', 1);
 
-global $mod_path;
-
-// use this to avoid main.inc.php multi includes error when call from ajax.php
-// @include_once/@require_once don't seems to work when adding if statement on custom folder
-// between, removing custom folder support may be an easy solution
-if (isset($GLOBALS['mod_path']))
-{
-    $mod_path = $GLOBALS['mod_path'];
-}
-else
-{
-    $mod_path = "";
-    // Load Dolibarr environment
-    if (false === (@include '../main.inc.php')) {  // From htdocs directory
-            require '../../main.inc.php'; // From "custom" directory
-            $mod_path = "/custom";
-    }
+// Load Dolibarr environment
+$mod_path = "";
+if (false === (@include '../main.inc.php')) {  // From htdocs directory
+        require '../../main.inc.php'; // From "custom" directory
+        $mod_path = "/custom";
 }
 
-dol_include_once($mod_path.'/chat/class/chat.class.php');
+dol_include_once('/chat/class/chat.class.php');
 require_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/lib/chat.lib.php';
 
 global $db, $langs, $user;

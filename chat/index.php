@@ -107,7 +107,7 @@ if ($action == 'send') {
             if (!empty($_FILES['attachment']['name'])) {
                     $attachment = new ChatMessageAttachment($db);
                     // on ajoute la date au nom du fichier pour différencier entre les fichiers qui ont le même nom et éviter que l'un écrase l'autre
-                    $attachment->name = dol_sanitizeFileName(dol_now().'_'.$_FILES['attachment']['name']);
+                    $attachment->name = dol_sanitizeFileName($now.'_'.$_FILES['attachment']['name']);
                     $attachment->type = $_FILES['attachment']['type'];
                     $attachment->size = $_FILES['attachment']['size'];
                     $attachment_id = $attachment->add($user);

@@ -36,6 +36,7 @@ Permission500005 = See online users
 ChatSetup = Chat setup
 Settings = Settings
 ChatConf = Chat configuration
+ChatPopupConf = Chat popup configuration
 ChatAutoRefreshTime = Chat auto refresh time in seconds (Default: 5 seconds)
 ChatMaxMsgNumber = Maximum number of messages shown on chat (Default: 50)
 ShowImagesPreview = Show images preview on chat

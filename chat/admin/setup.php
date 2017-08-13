@@ -253,7 +253,7 @@ $var=true;
 print '<table class="noborder" width="100%">';
 print '<tr class="liste_titre">';
 print '<td>'.$langs->trans("Parameters").'</td>'."\n";
-print '<td align="right" width="150">'.$langs->trans("Value").'</td>'."\n";
+print '<td align="right" width="80">'.$langs->trans("Value").'</td>'."\n";
 print '<td width="80">&nbsp;</td></tr>'."\n";
 
 // auto refresh time
@@ -297,6 +297,18 @@ else
     print '<a href="'.$_SERVER['PHP_SELF'].'?action=set_CHAT_SHOW_IMAGES_PREVIEW&amp;value=0">'.img_picto($langs->trans("Enabled"),'switch_on').'</a>';
 }
 print '</td></tr>';
+
+print '</table>';
+
+// Chat popup config.
+print load_fiche_titre($langs->trans("ChatPopupConf"));
+
+$var=true;
+print '<table class="noborder" width="100%">';
+print '<tr class="liste_titre">';
+print '<td>'.$langs->trans("Parameters").'</td>'."\n";
+print '<td align="right" width="150">'.$langs->trans("Value").'</td>'."\n";
+print '<td width="80">&nbsp;</td></tr>'."\n";
 
 // enable chat popup
 $var=!$var;

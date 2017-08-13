@@ -36,6 +36,7 @@ Permission500005 = Voir les utilisateurs en ligne
 ChatSetup = Configuration du module chat
 Settings = Réglages
 ChatConf = Paramètres du chat
+ChatPopupConf = Paramètres de la fenêtre popup
 ChatAutoRefreshTime = Temps de rafraîchissement automatique du chat en seconde (Par défaut: 5 secondes)
 ChatMaxMsgNumber = Nombre maximum de messages affichés sur le chat (Par défaut: 50)
 ShowImagesPreview = Afficher un aperçu des images sur le chat

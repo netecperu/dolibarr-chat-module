@@ -544,6 +544,17 @@ body::-webkit-scrollbar {
     padding: 0px;
 }
 
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.float-clear-left {
+    float: left;
+    clear: left;
+}
+
 /*---- end of reskin ----*/
 
 #custom-search-input {

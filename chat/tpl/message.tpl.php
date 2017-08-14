@@ -81,7 +81,7 @@ foreach ($messages as $msg)
                 echo Form::showphoto('userphoto', $userstatic, 38, 38, 0, '', 'small', 0, 1);
             ?>
         </a>
-        <div class="media-body <?php echo !empty($msg->attachment_name) ? "overflow-visible".($is_mine ? " margin-left" : " margin-right") : "" ?>">
+        <div class="media-body <?php echo !empty($msg->attachment_name) ? "overflow-visible clearfix".($is_mine ? " margin-left" : " margin-right") : "" ?>">
             <small class="pull-right time" title="<?php echo $postday; ?>">
                 <img class="btn-icon btn-small-icon" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/time.png'; ?>" />
                 <?php
@@ -114,7 +114,7 @@ foreach ($messages as $msg)
                         if ($is_image && $conf->global->CHAT_SHOW_IMAGES_PREVIEW)
                         {
                     ?>
-                        <div class="dropdown msg-attachment-dropdown">
+                        <div class="dropdown msg-attachment-dropdown <?php echo empty($msg->text) ? "" : "float-clear-left"; ?>">
                     <?php
 
                         }

@@ -12,7 +12,7 @@ var d = document;
 var playSize = 50;
 var borderSize = (playSize/10) - 1;
 var playButtonSize = playSize/5;
-var playColor = 'rgba(255, 255, 255, 0.6)';
+var playColor = 'rgba(255, 255, 255, 0.8)';
 var gifWidth = '280'; // px
 var gifHeight = '160'; // px
 

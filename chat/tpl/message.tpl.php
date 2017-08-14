@@ -138,9 +138,10 @@ foreach ($messages as $msg)
                         if ($is_image && $conf->global->CHAT_SHOW_IMAGES_PREVIEW)
                         {
                             $attachment_image = DOL_URL_ROOT . '/viewimage.php?modulepart=chat&entity=1&cache=1&file='.$filename;
+                            $is_gif = preg_match('/\.gif$/i', $msg->attachment_name);
                     ?>
                             <div class="dropdown-content dropdown-top">
-                                <img class="dropdown-image" src="<?php echo $attachment_image; ?>" alt=""/>
+                                <img class="dropdown-image" <?php echo ($is_gif ? 'data-gifffer="' : 'src="').$attachment_image.'"'; ?> alt=""/>
                             </div>
                         </div>
                     <?php

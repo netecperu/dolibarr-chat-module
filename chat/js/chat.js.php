@@ -57,6 +57,8 @@ print "         var user_to_id = -1;
                         
                         chatScroll();
                         
+                        ".($conf->global->CHAT_SHOW_IMAGES_PREVIEW ? "showGif();" : "")."
+                        
                         $('#accordion').click(function(e) {
                             if ($('#collapseOne').hasClass('in')) {
                                 $('#collapseOne').slideUp().removeClass('in');
@@ -151,6 +153,7 @@ print "         var user_to_id = -1;
                                 $('#chat_container').html(response);
                                 chatScroll();
                                 setPrivateMsgAnchorClickEvent();
+                                ".($conf->global->CHAT_SHOW_IMAGES_PREVIEW ? "showGif();" : "")."
                                 
                                 if (! disableCounter && new_msg_number > 0) {
                                     var unseen_msg_number = parseInt($('#chat_popup_counter').html());
@@ -252,6 +255,11 @@ print "         var user_to_id = -1;
                     function(response, status) {
                             //alert(\"Response: \" + response + \"\\nStatus: \" + status);
                     });
+                }
+                
+                function showGif() {
+                    // show gif images & add play/stop control
+                    Gifffer();
                 }
                 
                 ";

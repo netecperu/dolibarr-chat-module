@@ -66,6 +66,7 @@ class modChat extends DolibarrModules
 				'chat/css/popup.css.php'
 			),
 			'js' => array(
+                                'chat/js/gifffer.js',
 				'chat/js/chat.js.php'
 			)
 		);

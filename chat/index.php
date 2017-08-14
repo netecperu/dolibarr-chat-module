@@ -235,6 +235,13 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
         
         chatScroll();
         
+        function showGif() {
+            // show gif images & add play/stop control
+            Gifffer();
+        }
+        
+        ".($conf->global->CHAT_SHOW_IMAGES_PREVIEW ? "showGif();" : "")."
+        
         var disableAjax = false;
         
         function fetchMessages() {
@@ -253,6 +260,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                                     chatScroll();
                                     setDeleteCheckboxClickEvent();
                                     setAnchorClickEvent($('.msg .private'));
+                                    ".($conf->global->CHAT_SHOW_IMAGES_PREVIEW ? "showGif();" : "")."
                                 }
                         });
                     }

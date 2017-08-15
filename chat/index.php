@@ -179,6 +179,8 @@ else if ($action == 'delete') {
             } // fin if (is_numeric($m_id))
         } // fin foreach()
     }
+    
+    $action = empty($user_to_id) ? "" : "private_msg";
 }
 
 /*
@@ -335,7 +337,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
             $('#delete-msg-select-all').removeClass('hidden');
             $('#cancel-delete-msg').removeClass('hidden');
             $('#chat-head-options').addClass('hidden');
-            $('#confirm-delete-msg').attr('href', $('#confirm-delete-msg').attr('href').replace(/\?.*/,'?action=delete&msg_id='));
+            $('#confirm-delete-msg').attr('href', $('#confirm-delete-msg').attr('href').replace(/\?.*/,'?action=delete&user_to_id=".$user_to_id."&msg_id='));
         });
         
         $('#cancel-delete-msg').click(function() {
@@ -353,7 +355,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
             $('.delete-checkbox').each(function(i){
                 msg_id += $(this).val() + ',';
             });
-            $('#confirm-delete-msg').attr('href', $('#confirm-delete-msg').attr('href').replace(/\?.*/,'?action=delete&msg_id=' + msg_id));
+            $('#confirm-delete-msg').attr('href', $('#confirm-delete-msg').attr('href').replace(/\?.*/,'?action=delete&user_to_id=".$user_to_id."&msg_id=' + msg_id));
         });
         
         function setDeleteCheckboxClickEvent()
@@ -529,7 +531,7 @@ else $classviewhide='visible';
                     ?>
                 </div>
             </div>
-            <a id="confirm-delete-msg" class="chat-head-clickable grey-bold-text hidden" href="<?php echo DOL_URL_ROOT.$mod_path.'/chat/index.php?action=delete&msg_id='; ?>">
+            <a id="confirm-delete-msg" class="chat-head-clickable grey-bold-text hidden" href="<?php echo DOL_URL_ROOT.$mod_path.'/chat/index.php?action=delete&user_to_id='.$user_to_id.'&msg_id='; ?>">
                 <img class="btn-icon" title="" alt="" src="img/delete.png" />
                 <?php echo ' '.$langs->trans("DeleteMessage"); ?>
             </a>

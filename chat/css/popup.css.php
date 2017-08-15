@@ -127,7 +127,7 @@ if ($conf->global->CHAT_ENABLE_POPUP && ! empty($conf->use_javascript_ajax) && !
     background: transparent;
 }
 
-#users_container .conversation small {
+#users_container .last-private-msg {
     display: none;
 }
 

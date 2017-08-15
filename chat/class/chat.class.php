@@ -93,6 +93,8 @@ class Chat // extends CommonObject
                 
                 // fetch users
 		$sql = "SELECT u.rowid, u.lastname, u.firstname, u.admin, u.gender, u.photo, u.datelastlogin";
+                $sql.= ", (SELECT text FROM ".MAIN_DB_PREFIX."chat_msg WHERE (fk_user = u.rowid AND fk_user_to = ".$user->id.") OR (fk_user = ".$user->id." AND fk_user_to = u.rowid) ORDER BY post_time DESC LIMIT 1) as last_private_msg";
+                $sql.= ", (SELECT post_time FROM ".MAIN_DB_PREFIX."chat_msg WHERE (fk_user = u.rowid AND fk_user_to = ".$user->id.") OR (fk_user = ".$user->id." AND fk_user_to = u.rowid) ORDER BY post_time DESC LIMIT 1) as last_private_msg_post_time";
                 if ($check_online && $user->rights->chat->see_online_users)
                 {
                     $sql.= ", (SELECT count(*) FROM ".MAIN_DB_PREFIX."chat_online WHERE online_user = u.rowid) as is_online";

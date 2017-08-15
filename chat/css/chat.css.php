@@ -584,7 +584,7 @@ body::-webkit-scrollbar {
 
 .chat-head-clickable {
     display: inline-block;
-    padding: 10px;
+    padding: 10px 5px;
     cursor: pointer;
 }
 
@@ -650,6 +650,7 @@ body::-webkit-scrollbar {
 }
 
 .user-anchor .media-body {
+    margin: 10px 5px 0px 10px;
     color: #333;
 }
 
@@ -666,12 +667,29 @@ body::-webkit-scrollbar {
     outline: none;
 }
 
-.chat-head-user .user-image {
-    display: inline-block;
+.chat-head-user:hover {
+    text-decoration: none;
 }
 
-.chat-head-user .user-name {
-    margin: 10px;
+.chat-head-user .user-image {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#chat_head .user-name, .user-anchor .media-heading span {
+    color: #003bb3;
+}
+
+.user-anchor .media-heading {
+    margin-bottom: 10px;
+}
+
+.last-private-msg {
+    font-size: 13px;
+}
+
+.chat-head-user small {
+    color: #333;
 }
 
 .divider {

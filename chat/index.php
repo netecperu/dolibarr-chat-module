@@ -539,12 +539,23 @@ else $classviewhide='visible';
             </a>
             <span class="pull-left divider">&nbsp;</span>
             <a class="pull-left chat-head-user" target="_blank" href="<?php echo DOL_URL_ROOT.'/user/card.php?id='.$user_to_id; ?>">
-                <span class="user-image">
+                <span class="user-image pull-left">
                     <?php
                         echo Form::showphoto('userphoto', $userstatic, 32, 32, 0, '', 'small', 0, 1);
                     ?>
                 </span>
-                <span class="user-name pull-right grey-bold-text"><?php echo $userstatic->getFullName($langs); ?></span>
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        <span class="user-name grey-bold-text"><?php echo $userstatic->getFullName($langs); ?></span>
+                        <?php
+                            if ($userstatic->admin)
+                            {
+                                print img_picto($langs->trans("Administrator"),'star');
+                            }
+                        ?>
+                    </h5>
+                    <small><?php echo $langs->trans("LastLogin").' '.dol_print_date($userstatic->datelastlogin,"dayhour"); ?></small>
+                </div>
             </a>
             <?php
                 }

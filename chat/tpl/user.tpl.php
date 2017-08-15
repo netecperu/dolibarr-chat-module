@@ -71,7 +71,10 @@ foreach ($object->users as $obj)
                         }
                     ?>
                 </h5>
-                <small><?php echo $langs->trans("LastLogin").' '.dol_print_date($db->jdate($obj->datelastlogin),"dayhour"); ?></small>
+                <div class="last-private-msg">
+                    <span><?php echo dol_trunc($obj->last_private_msg, 24); ?></span>
+                    <small class="pull-right time"><?php echo dol_print_date($db->jdate($obj->last_private_msg_post_time),"hour"); ?></small>
+                </div>
             </div>
         </div>
     </a>

@@ -262,6 +262,7 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
                                     chatScroll();
                                     setDeleteCheckboxClickEvent();
                                     setAnchorClickEvent($('.msg .private'));
+                                    playNotificationSound();
                                     ".($conf->global->CHAT_SHOW_IMAGES_PREVIEW ? "showGif();" : "")."
                                 }
                         });
@@ -411,6 +412,30 @@ $moreheadjs=empty($conf->use_javascript_ajax)?"":"
         $('#chat-head-back-btn').click(function() {
             $(this).attr('href', $(this).attr('href') + '?enter_to_send=' + ($('#enter-to-send').is(':checked') ? 'on' : '') + '&sort_by_date=' + ($('#sort-by-date').is(':checked') ? 'on' : ''));
         });
+        
+        $('#sound_switch').click(function() {
+            var state = $(this).attr('alt') == 'on' ? 0 : 1;
+            $.post( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
+                    action: \"set_settings\",
+                    name: \"CHAT_ENABLE_SOUND\",
+                    value: state
+            },
+            function(response, status) {
+                    //console.log(\"Response: \" + response + \"\\nStatus: \" + status);
+                    if (state) {
+                        $('#sound_switch').attr('src', 'img/sound-on.png').attr('alt', 'on').attr('title', '".$langs->transnoentities("DisableSound")."');
+                    }
+                    else {
+                        $('#sound_switch').attr('src', 'img/sound-off.png').attr('alt', 'off').attr('title', '".$langs->transnoentities("EnableSound")."');
+                    }
+            });
+        });
+        
+        function playNotificationSound() {
+            if ($('#sound_switch').attr('alt') == 'on') {
+                $('#notification_sound')[0].play();
+            }
+        }
     });
 </script>";
 
@@ -439,6 +464,25 @@ else $classviewhide='visible';
                     <img class="" title="" alt="" src="img/search.png" />
                 </a>
             </div>
+            <audio id="notification_sound">
+                <source src="sounds/notification.wav"></source>
+            </audio>
+            <?php
+                $object->get_settings($user);
+                
+                if ($object->settings->CHAT_ENABLE_SOUND)
+                {
+            ?>
+            <img id="sound_switch" class="cursor-pointer caret" title="<?php echo $langs->trans("DisableSound"); ?>" alt="on" src="img/sound-on.png" />
+            <?php
+                }
+                else
+                {
+            ?>
+            <img id="sound_switch" class="cursor-pointer caret" title="<?php echo $langs->trans("EnableSound"); ?>" alt="off" src="img/sound-off.png" />
+            <?php
+                }
+            ?>
         </div>
     </form>
     

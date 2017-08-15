@@ -683,4 +683,13 @@ body::-webkit-scrollbar {
     padding: 20px 0px;
 }
 
+#custom-search-input {
+    position: relative;
+    padding-right: 40px;
+}
+
+#sound_switch {
+    right: 10px;
+}
+
 <?php

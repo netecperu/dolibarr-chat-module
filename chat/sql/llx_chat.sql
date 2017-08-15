@@ -39,3 +39,10 @@ CREATE TABLE llx_chat_msg_attachment(
         type VARCHAR(100) NULL,
         size INTEGER NULL
 );
+
+CREATE TABLE llx_chat_settings(
+	rowid INTEGER AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(250) NOT NULL,
+	value VARCHAR(250) NOT NULL,
+	fk_user INTEGER NOT NULL
+);

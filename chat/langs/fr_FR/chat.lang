@@ -94,6 +94,8 @@ OnlineUsers = Utilisateurs en ligne
 Back = Retour
 ClickToReply = Cliquez pour répondre
 Me = Moi
+EnableSound = Activé le son
+DisableSound = Désactivé le son
 
 #
 # Box d'exemple

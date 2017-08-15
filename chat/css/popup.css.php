@@ -62,6 +62,7 @@ if ($conf->global->CHAT_ENABLE_POPUP && ! empty($conf->use_javascript_ajax) && !
 }
 
 #chat_popup_toolbox {
+    position: relative;
     display: inline-block;
     float: left;
     text-align: left;
@@ -71,6 +72,10 @@ if ($conf->global->CHAT_ENABLE_POPUP && ! empty($conf->use_javascript_ajax) && !
     background: #f5f3f3;
     width: 100%;
     box-sizing: border-box;
+}
+
+#sound_switch {
+    padding: 6px 10px;
 }
 
 .popup-option {

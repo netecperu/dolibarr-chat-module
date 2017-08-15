@@ -21,9 +21,13 @@
  */
 
 $mod_path= $GLOBALS['mod_path'];
-$langs = $GLOBALS['langs'];
-$conf = $GLOBALS['conf'];
-$user = $GLOBALS['user'];
+
+dol_include_once('/chat/class/chat.class.php');
+
+global $db, $conf, $user, $langs;
+
+$chat = new Chat($db);
+$chat->get_settings($user);
 
 ?>
 <div id="chat_popup">
@@ -33,7 +37,7 @@ $user = $GLOBALS['user'];
             <img class="align-middle" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/'.($conf->global->CHAT_POPUP_TEXT_COLOR == '#fff' ? 'chat-16-white.png' : 'chat-16.png'); ?>" />
             <span id="chat_popup_title" class="align-middle"><?php echo $langs->trans("Module500001Name"); ?></span>
         </div>
-    <div class="panel-collapse collapse <?php echo $conf->global->CHAT_POPUP_OPENED ? "in" : ""; ?>" id="collapseOne">
+    <div class="panel-collapse collapse <?php echo $chat->settings->CHAT_POPUP_OPENED ? "in" : ""; ?>" id="collapseOne">
         <div id="chat_popup_toolbox">
             <label id="chat-popup-back-btn" class="popup-option align-middle cursor-pointer hidden"><img class="btn-icon" title="" alt="" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/arrow-back.png'; ?>" /><?php echo ' '.$langs->trans("Back"); ?></label>
             <?php
@@ -58,6 +62,27 @@ $user = $GLOBALS['user'];
             <?php
                 }
             ?>
+            <span class="popup-option pull-right">
+                <audio id="notification_sound">
+                    <source src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/sounds/notification.wav'; ?>"></source>
+                </audio>
+                <?php
+                    $object->get_settings($user);
+
+                    if ($object->settings->CHAT_ENABLE_SOUND)
+                    {
+                ?>
+                <img id="sound_switch" class="cursor-pointer" title="<?php echo $langs->trans("DisableSound"); ?>" alt="on" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/sound-on.png'; ?>" />
+                <?php
+                    }
+                    else
+                    {
+                ?>
+                <img id="sound_switch" class="cursor-pointer" title="<?php echo $langs->trans("EnableSound"); ?>" alt="off" src="<?php echo DOL_URL_ROOT.$mod_path.'/chat/img/sound-off.png'; ?>" />
+                <?php
+                    }
+                ?>
+            </span>
         </div>
         <div id="chat_container" class="panel-body msg-wrap">
             <?php

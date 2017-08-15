@@ -94,6 +94,8 @@ OnlineUsers = Online users
 Back = Back
 ClickToReply = Click to reply
 Me = Me
+EnableSound = Enable sound
+DisableSound = Disable sound
 
 #
 # Sample box

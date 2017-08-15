@@ -21,14 +21,12 @@
  */
 
 $mod_path = $GLOBALS['mod_path'];
+$object = $GLOBALS['object'];
 
 require_once DOL_DOCUMENT_ROOT.$mod_path.'/chat/lib/chat.lib.php';
 
 
-global $db, $conf, $user;
-
-$langs = $GLOBALS['langs'];
-$object = $GLOBALS['object'];
+global $db, $conf, $user, $langs;
 
 $currentday = "";
 $userstatic = new User($db);

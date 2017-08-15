@@ -132,6 +132,24 @@ print "         var user_to_id = -1;
                             var new_val = $('#msg_input').val() + $(this).attr('title');
                             $('#msg_input').val(new_val);
                         });
+                        
+                        $('#sound_switch').click(function() {
+                            var state = $(this).attr('alt') == 'on' ? 0 : 1;
+                            $.post( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
+                                    action: \"set_settings\",
+                                    name: \"CHAT_ENABLE_SOUND\",
+                                    value: state
+                            },
+                            function(response, status) {
+                                    //console.log(\"Response: \" + response + \"\\nStatus: \" + status);
+                                    if (state) {
+                                        $('#sound_switch').attr('src', '".DOL_URL_ROOT.$mod_path.'/chat/img/sound-on.png'."').attr('alt', 'on').attr('title', '".$langs->transnoentities("DisableSound")."');
+                                    }
+                                    else {
+                                        $('#sound_switch').attr('src', '".DOL_URL_ROOT.$mod_path.'/chat/img/sound-off.png'."').attr('alt', 'off').attr('title', '".$langs->transnoentities("EnableSound")."');
+                                    }
+                            });
+                        });
                 });
                 
                 function chatScroll() {
@@ -159,6 +177,7 @@ print "         var user_to_id = -1;
                                     var unseen_msg_number = parseInt($('#chat_popup_counter').html());
                                     if (unseen_msg_number > 0) new_msg_number += unseen_msg_number;
                                     $('#chat_popup_counter').html(new_msg_number).removeClass('hidden');
+                                    playNotificationSound();
                                 }
                             }
                             
@@ -249,8 +268,9 @@ print "         var user_to_id = -1;
                 
                 function setPopupState(state) {
                     $.post( '".DOL_URL_ROOT.$mod_path.'/chat/ajax/ajax.php'."', {
-                            action: \"set_popup_state\",
-                            state: state
+                            action: \"set_settings\",
+                            name: \"CHAT_POPUP_OPENED\",
+                            value: state
                     },
                     function(response, status) {
                             //alert(\"Response: \" + response + \"\\nStatus: \" + status);
@@ -260,6 +280,12 @@ print "         var user_to_id = -1;
                 function showGif() {
                     // show gif images & add play/stop control
                     Gifffer();
+                }
+                
+                function playNotificationSound() {
+                    if ($('#sound_switch').attr('alt') == 'on') {
+                        $('#notification_sound')[0].play();
+                    }
                 }
                 
                 ";

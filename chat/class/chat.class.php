@@ -53,6 +53,8 @@ class Chat // extends CommonObject
 	public $messages = array();
         /** @var int Total messages count */
 	public $messages_count = 0;
+        /** @var mixed An example property */
+	public $settings;
 
 	/**
 	 * Constructor
@@ -463,5 +465,110 @@ class Chat // extends CommonObject
                 {
                         return -1;
                 }
+	}
+        
+        /**
+	 * Load object in memory from database
+	 *
+	 * @param int $id Id object
+	 * @return int <0 if KO, >0 if OK
+	 */
+	public function get_settings($user)
+	{
+		global $conf;
+                
+                // on récupère les paramètres de l'utilisateur courant
+                $sql = "SELECT s.name, s.value";
+                $sql.= " FROM ".MAIN_DB_PREFIX."chat_settings as s";
+                $sql.= " WHERE s.fk_user = ".$user->id;
+                
+                dol_syslog(__METHOD__ . " sql=" . $sql, LOG_DEBUG);
+                $resql = $this->db->query($sql);
+                if ($resql)
+                {
+                        $num = $this->db->num_rows($resql);
+			$i = 0;
+			while ($i < $num)
+			{
+				$obj = $this->db->fetch_object($resql);
+
+				$name=$obj->name;
+
+				if ($name)
+				{
+					if (! isset($this->settings) || ! is_object($this->settings)) $this->settings = new stdClass(); // For avoid error
+					if (! isset($this->settings->$name) || ! is_object($this->settings->$name)) $this->settings->$name = new stdClass();
+                                        $this->settings->$name = $obj->value;
+
+				}
+				$i++;
+			}
+			$this->db->free($resql);
+
+                        return 1;
+                }
+                else
+                {
+                        return -1;
+                }
+	}
+        
+        /**
+	 * Load object in memory from database
+	 *
+	 * @param int $id Id object
+	 * @return int <0 if KO, >0 if OK
+	 */
+	public function set_settings($name, $value, $user)
+	{
+		global $conf;
+                
+                // Suppression de l'ancienne valeur (si elle existe)
+                $sql = "DELETE FROM ".MAIN_DB_PREFIX."chat_settings";
+                $sql.= " WHERE name = ".$this->db->encrypt($name,1);
+                $sql.= " AND fk_user = ".$user->id;
+                
+                dol_syslog(__METHOD__ . " sql=" . $sql, LOG_DEBUG);
+                $resql = $this->db->query($sql);
+                
+                // On insert la nouvelle valeur
+                if (strcmp($value,''))	// true if different. Must work for $value='0' or $value=0
+                {
+                    $sql = "INSERT INTO ".MAIN_DB_PREFIX."chat_settings(name,value,fk_user)";
+                    $sql.= " VALUES (";
+                    $sql.= $this->db->encrypt($name,1);
+                    $sql.= ", ".$this->db->encrypt($value,1);
+                    $sql.= ",'".$user->id."')";
+
+                    //print "sql".$value."-".pg_escape_string($value)."-".$sql;exit;
+                    //print "xx".$db->escape($value);
+                    dol_syslog(__METHOD__ . " sql=" . $sql, LOG_DEBUG);
+                    $resql = $this->db->query($sql);
+                }
+
+                if ($resql)
+                {
+                    $this->db->commit();
+                    $this->settings->$name=$value;
+                    return 1;
+                }
+                else
+                {
+                    $error=$this->db->lasterror();
+                    $this->db->rollback();
+                    return -1;
+                }
+	}
+        
+        /**
+	 *  Clear all settings array of user
+	 *
+	 *  @return	void
+	 *  @see	get_settings
+	 */
+	function clear_settings()
+	{
+		dol_syslog(get_class($this)."::clearchatsettings");
+		$this->settings='';
 	}
 }

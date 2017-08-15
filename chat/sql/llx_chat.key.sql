@@ -19,3 +19,5 @@ ALTER TABLE llx_chat_msg ADD CONSTRAINT fk_chat_msg_fk_attachment FOREIGN KEY (f
 ALTER TABLE llx_chat_msg ADD CONSTRAINT fk_chat_msg_fk_user_to FOREIGN KEY (fk_user_to) REFERENCES llx_user (rowid);
 
 ALTER TABLE llx_chat_online ADD CONSTRAINT fk_chat_online_user FOREIGN KEY (online_user) REFERENCES llx_user (rowid);
+
+ALTER TABLE llx_chat_settings ADD CONSTRAINT fk_chat_settings_fk_user FOREIGN KEY (fk_user) REFERENCES llx_user (rowid);

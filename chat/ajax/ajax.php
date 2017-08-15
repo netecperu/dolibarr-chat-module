@@ -40,7 +40,8 @@ $filter_user = GETPOST('filter_user','alpha');
 $show_date = GETPOST('show_date','alpha');
 $user_to_id = ! empty(GETPOST('user_to_id','int')) ? GETPOST('user_to_id','int') : GETPOST('filter_by_user','int');
 $only_online = GETPOST('only_online','alpha');
-$state	= GETPOST('state','int');
+$setting_name = GETPOST('name','alpha');
+$setting_value = GETPOST('value','alpha');
 
 // Access control
 if ($user->socid > 0 || !$user->rights->chat->lire) {
@@ -122,9 +123,12 @@ if (isset($action) && ! empty($action))
                 }
             }
         } // fin if ($action == 'get_popup_html')
-        else if ($action == 'set_popup_state')
+        else if ($action == 'set_settings')
 	{
-            $result = dolibarr_set_const($db, "CHAT_POPUP_OPENED",$state,'chaine',0,'',$conf->entity);
+            $object = new Chat($db);
+            
+            // set settings
+            $result = $object->set_settings($setting_name, $setting_value, $user);
             
             //if ($result > 0)
             //{
@@ -134,7 +138,7 @@ if (isset($action) && ! empty($action))
             //{
                 //print 'error';
             //}
-        } // fin if ($action == 'set_popup_state')
+        } // fin if ($action == 'set_settings')
         else if ($action == 'send_msg')
 	{
             $msg = GETPOST('msg', 'alpha');
